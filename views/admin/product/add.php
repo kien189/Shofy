@@ -32,15 +32,15 @@
                         </div>
                         <div class="card-body">
                             <div class="row mb-3">
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
 
                                     <div class="mb-3">
                                         <label for="product-name" class="form-label">Product Name</label>
-                                        <input type="text" id="product-name" name="name" class="form-control" placeholder="Items Name">
+                                        <input type="text" id="product-name" name="name" onkeyup="ChangeToSlug()" class="form-control" placeholder="Items Name">
                                     </div>
 
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <label for="product-categories" class="form-label">Product Categories</label>
                                     <select class="form-control" name="category_id" id="product-categories" data-choices data-choices-groups data-placeholder="Select Categories">
                                         <?php foreach ($listCategory as $category): ?>
@@ -54,6 +54,22 @@
                                     <div class="mb-3">
                                         <label for="product-brand" class="form-label">Price</label>
                                         <input type="text" id="product-brand" class="form-control" name="priceProduct" placeholder="Brand Name">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-4">
+
+                                    <div class="mb-3">
+                                        <label for="product-brand" class="form-label">Sale Price</label>
+                                        <input type="text" id="product-brand" class="form-control" name="salePriceProduct" placeholder="Brand Name">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-4">
+
+                                    <div class="mb-3">
+                                        <label for="slug" class="form-label">Slug</label>
+                                        <input type="text" id="slug" class="form-control" name="slug"  placeholder="Brand Name">
                                     </div>
 
                                 </div>
@@ -132,10 +148,11 @@
                         <div class="col-lg-12">
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control bg-light-subtle" id="description" name="description" rows="7" placeholder="Short description about the product"></textarea>
+                                <textarea class="form-control bg-light-subtle editor1" id="description" name="description" rows="7" placeholder="Short description about the product"></textarea>
                             </div>
                         </div>
                     </div>
+                   
                     <!-- <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Pricing Details</h4>

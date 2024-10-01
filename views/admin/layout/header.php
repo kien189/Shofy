@@ -27,17 +27,42 @@
 
     <!-- Theme Config js (Require in all Page) -->
     <script src="assets_admin/js/config.js"></script>
+
+    <!-- Toastr CSS -->
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <!-- jQuery (Toastr.js phụ thuộc vào jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 </head>
 
 <body>
+
     <?php
-    if (isset($_SESSION['message'])) {
-        echo "<p>{$_SESSION['message']}</p>";
+
+    if (isset($_SESSION['error'])) {
+        echo "<script type='text/javascript'>
+        toastr.warning('{$_SESSION['error']}');
+    </script>";
 
         // Xóa thông báo sau khi hiển thị để tránh lặp lại
-        unset($_SESSION['message']);
+        unset($_SESSION['error']);
     }
+    if (isset($_SESSION['success'])) {
+        echo "<script type='text/javascript'>
+        toastr.success('{$_SESSION['success']}');
+    </script>";
+    
+    // Xóa thông báo sau khi hiển thị để tránh lặp lại
+    unset($_SESSION['success']);
+    }
+    
     ?>
+
     <!-- START Wrapper -->
     <div class="wrapper">
 
@@ -512,9 +537,6 @@
                                     <a class="sub-nav-link" href="index.php?act=product">List</a>
                                 </li>
                                 <li class="sub-nav-item">
-                                    <a class="sub-nav-link" href="index.php?act=edit_product">Edit</a>
-                                </li>
-                                <li class="sub-nav-item">
                                     <a class="sub-nav-link" href="index.php?act=add_product">Create</a>
                                 </li>
                             </ul>
@@ -532,9 +554,6 @@
                             <ul class="nav sub-navbar-nav">
                                 <li class="sub-nav-item">
                                     <a class="sub-nav-link" href="index.php?act=category">List</a>
-                                </li>
-                                <li class="sub-nav-item">
-                                    <a class="sub-nav-link" href="index.php?act=edit_category">Edit</a>
                                 </li>
                                 <li class="sub-nav-item">
                                     <a class="sub-nav-link" href="index.php?act=add_category">Create</a>

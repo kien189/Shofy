@@ -5,116 +5,146 @@
 <!-- Mirrored from techzaa.getappui.com/larkon/admin/auth-signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 16 Sep 2024 15:07:11 GMT -->
 
 <head>
-     <!-- Title Meta -->
-     <meta charset="utf-8" />
-     <title>Sign In | Larkon - Responsive Admin Dashboard Template</title>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <meta name="description" content="A fully responsive premium admin dashboard template" />
-     <meta name="author" content="Techzaa" />
-     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Title Meta -->
+    <meta charset="utf-8"/>
+    <title>Sign In | Larkon - Responsive Admin Dashboard Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A fully responsive premium admin dashboard template"/>
+    <meta name="author" content="Techzaa"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-     <!-- App favicon -->
-     <link rel="shortcut icon" href="assets_admin/images/favicon.ico">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets_admin/images/favicon.ico">
 
-     <!-- Vendor css (Require in all Page) -->
-     <link href="assets_admin/css/vendor.min.css" rel="stylesheet" type="text/css" />
+    <!-- Vendor css (Require in all Page) -->
+    <link href="assets_admin/css/vendor.min.css" rel="stylesheet" type="text/css"/>
 
-     <!-- Icons css (Require in all Page) -->
-     <link href="assets_admin/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Icons css (Require in all Page) -->
+    <link href="assets_admin/css/icons.min.css" rel="stylesheet" type="text/css"/>
 
-     <!-- App css (Require in all Page) -->
-     <link href="assets_admin/css/app.min.css" rel="stylesheet" type="text/css" />
+    <!-- App css (Require in all Page) -->
+    <link href="assets_admin/css/app.min.css" rel="stylesheet" type="text/css"/>
 
-     <!-- Theme Config js (Require in all Page) -->
-     <script src="assets_admin/js/config.js"></script>
+    <!-- Theme Config js (Require in all Page) -->
+    <script src="assets_admin/js/config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <!-- jQuery (Toastr.js phụ thuộc vào jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 </head>
 
 <body class="h-100">
-     <?php
-     if (isset($_SESSION['message'])) {
-          echo "<p>{$_SESSION['message']}</p>";
 
-          // Xóa thông báo sau khi hiển thị để tránh lặp lại
-          unset($_SESSION['message']);
-     }
-     ?>
-     <div class="d-flex flex-column h-100 p-3">
-          <div class="d-flex flex-column flex-grow-1">
-               <div class="row h-100">
-                    <div class="col-xxl-7">
-                         <div class="row justify-content-center h-100">
-                              <div class="col-lg-6 py-lg-5">
-                                   <div class="d-flex flex-column h-100 justify-content-center">
-                                        <div class="auth-logo mb-4">
-                                             <a href="index.html" class="logo-dark">
-                                                  <img src="assets_admin/images/logo-dark.png" height="24" alt="logo dark">
-                                             </a>
+<?php
 
-                                             <a href="index.html" class="logo-light">
-                                                  <img src="assets_admin/images/logo-light.png" height="24" alt="logo light">
-                                             </a>
+if (isset($_SESSION['message'])) {
+    echo "<script type='text/javascript'>
+            toastr.warning('{$_SESSION['message']}');
+        </script>";
+
+    // Xóa thông báo sau khi hiển thị để tránh lặp lại
+    unset($_SESSION['message']);
+}
+if (isset($_SESSION['message'])) {
+    echo "<script type='text/javascript'>
+            toastr.suceess('{$_SESSION['message']}');
+        </script>";
+
+    // Xóa thông báo sau khi hiển thị để tránh lặp lại
+    unset($_SESSION['message']);
+}
+?>
+
+<div class="d-flex flex-column h-100 p-3">
+    <div class="d-flex flex-column flex-grow-1">
+        <div class="row h-100">
+            <div class="col-xxl-7">
+                <div class="row justify-content-center h-100">
+                    <div class="col-lg-6 py-lg-5">
+                        <div class="d-flex flex-column h-100 justify-content-center">
+                            <div class="auth-logo mb-4">
+                                <a href="index.html" class="logo-dark">
+                                    <img src="assets_admin/images/logo-dark.png" height="24" alt="logo dark">
+                                </a>
+
+                                <a href="index.html" class="logo-light">
+                                    <img src="assets_admin/images/logo-light.png" height="24" alt="logo light">
+                                </a>
+                            </div>
+
+                            <h2 class="fw-bold fs-24">Sign Up</h2>
+
+                            <p class="text-muted mt-1 mb-4">New to our platform? Sign up now! It only takes a minute</p>
+
+                            <div>
+                                <form action="index.php?act=register_admin" class="authentication-form" method="POST">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="example-name">Name</label>
+                                        <input type="text" id="example-name" name="name" class="form-control"
+                                               placeholder="Enter your name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="example-email">Email</label>
+                                        <input type="email" id="example-email" name="email" class="form-control bg-"
+                                               placeholder="Enter your email">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="example-password">Password</label>
+                                        <input type="password" id="example-password" name="password"
+                                               class="form-control" placeholder="Enter your password">
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="checkbox-signin">
+                                            <label class="form-check-label" for="checkbox-signin">I accept Terms and
+                                                Condition</label>
                                         </div>
+                                    </div>
 
-                                        <h2 class="fw-bold fs-24">Sign Up</h2>
+                                    <div class="mb-1 text-center d-grid">
+                                        <button class="btn btn-soft-primary" name="register_admin" type="submit">Sign
+                                            Up
+                                        </button>
+                                    </div>
+                                </form>
 
-                                        <p class="text-muted mt-1 mb-4">New to our platform? Sign up now! It only takes a minute</p>
+                                <p class="mt-3 fw-semibold no-span">OR sign with</p>
 
-                                        <div>
-                                             <form action="index.php?act=register_admin" class="authentication-form" method="POST">
-                                                  <div class="mb-3">
-                                                       <label class="form-label" for="example-name">Name</label>
-                                                       <input type="text" id="example-name" name="name" class="form-control" placeholder="Enter your name">
-                                                  </div>
-                                                  <div class="mb-3">
-                                                       <label class="form-label" for="example-email">Email</label>
-                                                       <input type="email" id="example-email" name="email" class="form-control bg-" placeholder="Enter your email">
-                                                  </div>
-                                                  <div class="mb-3">
-                                                       <label class="form-label" for="example-password">Password</label>
-                                                       <input type="password" id="example-password" name="password" class="form-control" placeholder="Enter your password">
-                                                  </div>
-                                                  <div class="mb-3">
-                                                       <div class="form-check">
-                                                            <input type="checkbox" class="form-check-input" id="checkbox-signin">
-                                                            <label class="form-check-label" for="checkbox-signin">I accept Terms and Condition</label>
-                                                       </div>
-                                                  </div>
+                                <div class="d-grid gap-2">
+                                    <a href="javascript:void(0);" class="btn btn-soft-dark"><i
+                                                class="bx bxl-google fs-20 me-1"></i> Sign Up with Google</a>
+                                    <a href="javascript:void(0);" class="btn btn-soft-primary"><i
+                                                class="bx bxl-facebook fs-20 me-1"></i> Sign Up with Facebook</a>
+                                </div>
+                            </div>
 
-                                                  <div class="mb-1 text-center d-grid">
-                                                       <button class="btn btn-soft-primary" name="register_admin"  type="submit">Sign Up</button>
-                                                  </div>
-                                             </form>
-
-                                             <p class="mt-3 fw-semibold no-span">OR sign with</p>
-
-                                             <div class="d-grid gap-2">
-                                                  <a href="javascript:void(0);" class="btn btn-soft-dark"><i class="bx bxl-google fs-20 me-1"></i> Sign Up with Google</a>
-                                                  <a href="javascript:void(0);" class="btn btn-soft-primary"><i class="bx bxl-facebook fs-20 me-1"></i> Sign Up with Facebook</a>
-                                             </div>
-                                        </div>
-
-                                        <p class="mt-auto text-danger text-center">I already have an account <a href="auth-signin.html" class="text-dark fw-bold ms-1">Sign In</a></p>
-                                   </div>
-                              </div>
-                         </div>
+                            <p class="mt-auto text-danger text-center">I already have an account <a
+                                        href="auth-signin.html" class="text-dark fw-bold ms-1">Sign In</a></p>
+                        </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="col-xxl-5 d-none d-xxl-flex">
-                         <div class="card h-100 mb-0 overflow-hidden">
-                              <div class="d-flex flex-column h-100">
-                                   <img src="assets_admin/images/small/img-10.jpg" alt="" class="w-100 h-100">
-                              </div>
-                         </div> <!-- end card -->
+            <div class="col-xxl-5 d-none d-xxl-flex">
+                <div class="card h-100 mb-0 overflow-hidden">
+                    <div class="d-flex flex-column h-100">
+                        <img src="assets_admin/images/small/img-10.jpg" alt="" class="w-100 h-100">
                     </div>
-               </div>
-          </div>
-     </div>
+                </div> <!-- end card -->
+            </div>
+        </div>
+    </div>
+</div>
 
-     <!-- Vendor Javascript (Require in all Page) -->
-     <script src="assets_admin/js/vendor.js"></script>
+<!-- Vendor Javascript (Require in all Page) -->
+<script src="assets_admin/js/vendor.js"></script>
 
-     <!-- App Javascript (Require in all Page) -->
-     <script src="assets_admin/js/app.js"></script>
+<!-- App Javascript (Require in all Page) -->
+<script src="assets_admin/js/app.js"></script>
 
 </body>
 

@@ -15,16 +15,16 @@ class AuthController
             if ($loginAdmin) {
                 $_SESSION['user_admin'] = $loginAdmin;
                 if ($this->isAdmin()) {
+                    $_SESSION['success'] = "Đăng nhập thành công .";
                     header("Location:index.php?act=dashboard");
-                    $_SESSION['message'] = "Đăng nhập thành công .";
                     exit();
                 } else {
                     header("Location:index.php?act=admin");
-                    $_SESSION['message'] = "Bạn không có quyền truy cập.";
+                    $_SESSION['error'] = "Bạn không có quyền truy cập.";
                     exit();
                 }
             } else {
-                $_SESSION['message'] = "Đăng nhập thất bị. Vui lòng kiểm tra lại.";
+                $_SESSION['error'] = "Đăng nhập thất bị. Vui lòng kiểm tra lại.";
             }
         }
     }
@@ -35,14 +35,14 @@ class AuthController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register_admin'])) {
             if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password'])) {
-                $_SESSION['message'] = "Vui lòng điền đầy đủ thông tin !";
+                $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin !";
             } else {
                 $registerAdmin = $this->userModel->registerAdmin($_POST['name'], $_POST['email'], $_POST['password']);
                 if ($registerAdmin) {
                     header("Location:index.php?act=admin");
-                    $_SESSION['message'] = "Đăng ký thành công . Vui lòng đăng nhập";
+                    $_SESSION['success'] = "Đăng ký thành công . Vui lòng đăng nhập";
                 } else {
-                    $_SESSION['message'] = "Đăng ký thất bị. Vui lòng kiểm tra lại thông tin!";
+                    $_SESSION['error'] = "Đăng ký thất bị. Vui lòng kiểm tra lại thông tin!";
                 }
             }
         }
@@ -60,7 +60,7 @@ class AuthController
     public function middleware()
     {
         if (!$this->isAdmin()) {
-            $_SESSION['message'] = "Bạn không có quyền truy cập .";
+            $_SESSION['error'] = "Bạn không có quyền truy cập .";
             header("Location: index.php?act=admin");
             exit();
         }
@@ -68,6 +68,7 @@ class AuthController
     public function logout()
     {
         unset($_SESSION['user_admin']);
+        $_SESSION['success'] = "Đăng xuất thành công .";
         header("Location: index.php?act=admin");
         exit();
     }

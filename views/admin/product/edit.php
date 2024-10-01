@@ -5,286 +5,279 @@
     <div class="container-xxl">
 
         <div class="row">
-            <div class="col-xl-3 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <img src="assets_admin/images/product/p-1.png" alt="" class="img-fluid rounded bg-light">
-                        <div class="mt-3">
-                            <h4>Men Black Slim Fit T-shirt <span class="fs-14 text-muted ms-1">(Fashion)</span></h4>
-                            <h5 class="text-dark fw-medium mt-3">Price :</h5>
-                            <h4 class="fw-semibold text-dark mt-2 d-flex align-items-center gap-2">
-                                <span class="text-muted text-decoration-line-through">$100</span> $80 <small class="text-muted"> (30% Off)</small>
-                            </h4>
-                            <div class="mt-3">
-                                <h5 class="text-dark fw-medium">Size :</h5>
-                                <div class="d-flex flex-wrap gap-2" role="group" aria-label="Basic checkbox toggle button group">
-                                    <input type="checkbox" class="btn-check" id="size-s">
-                                    <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="size-s">S</label>
 
-                                    <input type="checkbox" class="btn-check" id="size-m" checked>
-                                    <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="size-m">M</label>
+            <form action="index.php?act=update_product&product_id=<?= $getProductID['product_info']['product_id'] ?>" method="post" enctype="multipart/form-data">
 
-                                    <input type="checkbox" class="btn-check" id="size-xl">
-                                    <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="size-xl">Xl</label>
+                <input type="hidden" name="product_id" value="<?= $getProductID['product_info']['product_id'] ?>">
 
-                                    <input type="checkbox" class="btn-check" id="size-xxl">
-                                    <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="size-xxl">XXL</label>
-
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <h5 class="text-dark fw-medium">Colors :</h5>
-                                <div class="d-flex flex-wrap gap-2" role="group" aria-label="Basic checkbox toggle button group">
-                                    <input type="checkbox" class="btn-check" id="color-dark">
-                                    <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-dark"> <i class="bx bxs-circle fs-18 text-dark"></i></label>
-
-                                    <input type="checkbox" class="btn-check" id="color-yellow">
-                                    <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-yellow"> <i class="bx bxs-circle fs-18 text-warning"></i></label>
-
-                                    <input type="checkbox" class="btn-check" id="color-white">
-                                    <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-white"> <i class="bx bxs-circle fs-18 text-white"></i></label>
-
-                                    <input type="checkbox" class="btn-check" id="color-red">
-                                    <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-red"> <i class="bx bxs-circle fs-18 text-danger"></i></label>
-
-                                </div>
-                            </div>
+                <div class="col-xl-9 col-lg-8 ">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Add Product Photo</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- File Upload -->
+                            <img src="./images/product/<?= $getProductID['product_info']['product_image'] ?>"
+                                alt="" class="avatar-md">
+                            <input type="hidden" name="oldImage" value="<?= $getProductID['product_info']['product_image'] ?>">
+                            <input type="file" name="image" class="form-control">
                         </div>
                     </div>
-                </div>
-            </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Add Product Photo</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- File Upload -->
+                            <?php foreach ($getProductID['product_gallery'] as $image): ?>
 
-            <div class="col-xl-9 col-lg-8 ">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Add Product Photo</h4>
+                                <img src="./images/productGalery/<?= $image['image'] ?>"
+                                    alt="" class="avatar-md">
+                                <input type="hidden" name="oldImages[]" value="<?= $image['image'] ?>">
+                            <?php endforeach; ?>
+                            <input type="file" name="images[]" class="form-control" multiple>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <!-- File Upload -->
-                        <form action="https://techzaa.getappui.com/" method="post" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
-                            <div class="fallback">
-                                <input name="file" type="file" multiple />
-                            </div>
-                            <div class="dz-message needsclick">
-                                <i class="bx bx-cloud-upload fs-48 text-primary"></i>
-                                <h3 class="mt-4">Drop your images here, or <span class="text-primary">click to browse</span></h3>
-                                <span class="text-muted fs-13">
-                                    1600 x 1200 (4:3) recommended. PNG, JPG and GIF files are allowed
-                                </span>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Product Information</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <form>
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h4 class="card-title">Product Information</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-lg-4">
+
                                     <div class="mb-3">
                                         <label for="product-name" class="form-label">Product Name</label>
-                                        <input type="text" id="product-name" class="form-control" placeholder="Items Name" value="Men Black Slim Fit T-shirt">
+                                        <input type="text" id="product-name" name="name" value="<?= $getProductID['product_info']['product_name'] ?>" class="form-control" placeholder="Items Name">
                                     </div>
-                                </form>
-                            </div>
-                            <div class="col-lg-6">
-                                <form>
+
+                                </div>
+                                <div class="col-lg-4">
                                     <label for="product-categories" class="form-label">Product Categories</label>
-                                    <select class="form-control" id="product-categories" data-choices data-choices-groups data-placeholder="Select Categories" name="choices-single-groups">
-                                        <option value="">Choose a categories</option>
-                                        <option value="Fashion" selected>Fashion</option>
-                                        <option value="Electronics">Electronics</option>
-                                        <option value="Footwear">Footwear</option>
-                                        <option value="Sportswear">Sportswear</option>
-                                        <option value="Watches">Watches</option>
-                                        <option value="Furniture">Furniture</option>
-                                        <option value="Appliances">Appliances</option>
-                                        <option value="Headphones">Headphones</option>
-                                        <option value="Other Accessories">Other Accessories</option>
+                                    <select class="form-control" name="category_id" id="product-categories" data-choices data-choices-groups data-placeholder="Select Categories">
+                                        <?php foreach ($listCategory as $category): ?>
+                                            <option value="<?= $category['id'] ?>" <?= $getProductID['product_info']['category_id'] == $category['id'] ? 'selected' : 'Loi' ?>><?= $category['name'] ?></option>
+                                        <?php endforeach; ?>
                                     </select>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <form>
+                                </div>
+
+                                <div class="col-lg-4">
+
                                     <div class="mb-3">
-                                        <label for="product-brand" class="form-label">Brand</label>
-                                        <input type="text" id="product-brand" class="form-control" placeholder="Brand Name" value="Larkon Fashion">
+                                        <label for="product-brand" class="form-label">Price</label>
+                                        <input type="text" id="product-brand" class="form-control" value="<?= $getProductID['product_info']['product_price'] ?>" name="priceProduct" placeholder="Brand Name">
                                     </div>
-                                </form>
+
+                                </div>
                             </div>
-                            <div class="col-lg-4">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="product-weight" class="form-label">Weight</label>
-                                        <input type="text" id="product-weight" class="form-control" placeholder="In gm & kg" value="300gm">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-lg-4">
-                                <form>
-                                    <label for="gender" class="form-label">Gender</label>
-                                    <select class="form-control" id="gender" data-choices data-choices-groups data-placeholder="Select Gender">
-                                        <option value="">Select Gender</option>
-                                        <option value="Men" selected>Men</option>
-                                        <option value="Women">Women</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </form>
-                            </div>
+
+
                         </div>
-                        <div class="row mb-4">
-                            <div class="col-lg-4">
-                                <div class="mt-3">
-                                    <h5 class="text-dark fw-medium">Size :</h5>
-                                    <div class="d-flex flex-wrap gap-2" role="group" aria-label="Basic checkbox toggle button group">
-                                        <input type="checkbox" class="btn-check" id="size-xs1">
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="size-xs1">XS</label>
+                    </div>
+                    <?php foreach ($getProductID['product_variants'] as $index => $variant): // Sử dụng $index để làm chỉ số duy nhất 
+                    ?>
+                        <div class="card variants">
+                            <div class="card-header">
+                                <div>
+                                    <!-- Input hidden chứa product_variant_id -->
+                                    <input type="hidden" name="product_variant_id[]" value="<?= $variant['product_variant_id'] ?>">
 
-                                        <input type="checkbox" class="btn-check" id="size-s1" checked>
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="size-s1">S</label>
+                                    <div class="variant-item mb-4">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="text-dark fw-medium">Variant</h5>
+                                            <a onclick="return confirm('Are you sure?')" href="index.php?act=delete_variant&product_variant_id=<?= $variant['product_variant_id'] ?>" class="text-dark fw-medium" value="<?= $variant['product_variant_id'] ?>"><i class='bx bx-x'></i></a>
+                                        </div>
 
-                                        <input type="checkbox" class="btn-check" id="size-m1" checked>
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="size-m1">M</label>
+                                        <div class="row mb-4">
+                                            <div class="col-lg-4">
+                                                <div class="mt-3">
+                                                    <h5 class="text-dark fw-medium">Size :</h5>
+                                                    <div class="d-flex flex-wrap gap-2" role="group" aria-label="Basic checkbox toggle button group">
+                                                        <?php foreach ($size as $s): ?>
+                                                            <!-- Thêm $index vào id để tạo id duy nhất -->
+                                                            <input type="checkbox" class="btn-check" name="size[]" id="size-<?= $s['id'] ?>-<?= $index ?>" value="<?= $s['id'] ?>" <?= ($s['id'] == $variant['variant_size_id']) ? 'checked' : '' ?>>
+                                                            <label class="btn btn-light btn-lg avatar-sm rounded d-flex justify-content-center align-items-center" for="size-<?= $s['id'] ?>-<?= $index ?>">
+                                                                <?= $s['size'] ?>
+                                                            </label>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                        <input type="checkbox" class="btn-check" id="size-xl1" checked>
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="size-xl1">Xl</label>
+                                            <div class="col-lg-5">
+                                                <div class="mt-3">
+                                                    <h5 class="text-dark fw-medium">Colors :</h5>
+                                                    <div class="d-flex flex-wrap gap-2" role="group" aria-label="Basic checkbox toggle button group">
+                                                        <?php foreach ($color as $c): ?>
+                                                            <!-- Thêm $index vào id để tạo id duy nhất -->
+                                                            <input type="checkbox" class="btn-check" name="color[]" id="color-<?= $c['id'] ?>-<?= $index ?>" value="<?= $c['id'] ?>" <?= ($c['id'] == $variant['variant_color_id']) ? 'checked' : '' ?> autocomplete="off">
+                                                            <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-<?= $c['id'] ?>-<?= $index ?>">
+                                                                <i class="bx bxs-circle fs-18" style="color: <?= $c['color_code'] ?>;"></i>
+                                                            </label>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                        <input type="checkbox" class="btn-check" id="size-xxl1" checked>
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="size-xxl1">XXL</label>
-                                        <input type="checkbox" class="btn-check" id="size-3xl1">
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="size-3xl1">3XL</label>
+                                            <div class="col-lg-3">
+                                                <div class="mt-3">
+                                                    <label for="product-stock-<?= $index ?>" class="form-label">Quantity</label>
+                                                    <input type="number" id="product-stock-<?= $index ?>" name="quantity[]" value="<?= $variant['variant_quantity'] ?>" class="form-control" placeholder="Quantity">
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                        <div class="row mb-4">
+                                            <div class="col-lg-6">
+                                                <div class="mt-3">
+                                                    <h5 class="text-dark fw-medium">Price :</h5>
+                                                    <input type="text" name="price[]" class="form-control" placeholder="Price" value="<?= $variant['variant_price'] ?> ">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mt-3">
+                                                    <h5 class="text-dark fw-medium">Sale Price :</h5>
+                                                    <input type="text" name="salePrice[]" class="form-control" placeholder="Sale Price" value="<?= $variant['variant_sale_price'] ?>">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-5">
-                                <div class="mt-3">
-                                    <h5 class="text-dark fw-medium">Colors :</h5>
-                                    <div class="d-flex flex-wrap gap-2" role="group" aria-label="Basic checkbox toggle button group">
-                                        <input type="checkbox" class="btn-check" id="color-dark1" checked>
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-dark1"> <i class="bx bxs-circle fs-18 text-dark"></i></label>
+                        </div>
+                    <?php endforeach; ?>
 
-                                        <input type="checkbox" class="btn-check" id="color-yellow1" checked>
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-yellow1"> <i class="bx bxs-circle fs-18 text-warning"></i></label>
-
-                                        <input type="checkbox" class="btn-check" id="color-white1" checked>
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-white1"> <i class="bx bxs-circle fs-18 text-white"></i></label>
-
-                                        <input type="checkbox" class="btn-check" id="color-red1" checked>
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-red1"> <i class="bx bxs-circle fs-18 text-primary"></i></label>
-
-                                        <input type="checkbox" class="btn-check" id="color-green1">
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-green1"> <i class="bx bxs-circle fs-18 text-success"></i></label>
-
-                                        <input type="checkbox" class="btn-check" id="color-blue1">
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-blue1"> <i class="bx bxs-circle fs-18 text-danger"></i></label>
-
-                                        <input type="checkbox" class="btn-check" id="color-sky1">
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-sky1"> <i class="bx bxs-circle fs-18 text-info"></i></label>
-
-                                        <input type="checkbox" class="btn-check" id="color-gray1">
-                                        <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-gray1"> <i class="bx bxs-circle fs-18 text-secondary"></i></label>
-
-                                    </div>
+                    <div class="card variants">
+                        <div class="card-header">
+                            <div id="variant-container">
+                                <!-- Biến thể sẽ được thêm vào đây -->
+                            </div>
+                            <div class="row justify-content-end g-2">
+                                <div class="col-lg-2">
+                                    <button type="button" id="add-variant" class="btn btn-outline-secondary w-100">Add Variant</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="mb-3">
-                                    <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control bg-light-subtle" id="description" rows="7" placeholder="Short description about the product">Top in sweatshirt fabric made from a cotton blend with a soft brushed inside. Relaxed fit with dropped shoulders, long sleeves and ribbing around the neckline, cuffs and hem. Small metal text applique.</textarea>
-                                </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control bg-light-subtle editor1" id="description" name="description" rows="7" placeholder="Short description about the product"><?= $getProductID['product_info']['product_description'] ?></textarea>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="product-id" class="form-label">Tag Number</label>
-                                        <input type="number" id="product-id" class="form-control" placeholder="#******" value="36294007">
-                                    </div>
-
-                                </form>
+                    </div>
+                   
+                    <div class="p-3 bg-light mb-3 rounded">
+                        <div class="row justify-content-end g-2">
+                            <div class="col-lg-2">
+                                <button type="submit" name="update_product" class="btn btn-outline-secondary w-100">Creat Product</button>
                             </div>
-                            <div class="col-lg-4">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="product-stock" class="form-label">Stock</label>
-                                        <input type="number" id="product-stock" class="form-control" placeholder="Quantity" value="465">
-                                    </div>
-
-                                </form>
-                            </div>
-                            <div class="col-lg-4">
-                                <label for="product-stock" class="form-label">Tag</label>
-                                <select class="form-control" id="choices-multiple-remove-button" data-choices data-choices-removeItem name="choices-multiple-remove-button" multiple>
-                                    <option value="Fashion" selected>Fashion</option>
-                                    <option value="Electronics">Electronics</option>
-                                    <option value="Watches">Watches</option>
-                                    <option value="Headphones">Headphones</option>
-                                </select>
+                            <div class="col-lg-2">
+                                <a href="#!" class="btn btn-primary w-100">Cancel</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Pricing Details</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <form>
-                                    <label for="product-price" class="form-label">Price</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
-                                        <input type="number" id="product-price" class="form-control" placeholder="000" value="80">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-lg-4">
-                                <form>
-                                    <label for="product-discount" class="form-label">Discount</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text fs-20"><i class='bx bxs-discount'></i></span>
-                                        <input type="number" id="product-discount" class="form-control" placeholder="000" value="30">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-lg-4">
-                                <form>
-                                    <label for="product-tex" class="form-label">Tex</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text fs-20"><i class='bx bxs-file-txt'></i></span>
-                                        <input type="number" id="product-tex" class="form-control" placeholder="000" value="3">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-3 bg-light mb-3 rounded">
-                    <div class="row justify-content-end g-2">
-                        <div class="col-lg-2">
-                            <a href="#!" class="btn btn-outline-secondary w-100">Reset</a>
-                        </div>
-                        <div class="col-lg-2">
-                            <a href="#!" class="btn btn-primary w-100">Save</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            </form>
         </div>
 
     </div>
     <!-- End Container Fluid -->
+    <!-- Nhúng dữ liệu từ PHP vào JavaScript -->
+    <script>
+        var sizes = <?= json_encode($size); ?>; // Lấy dữ liệu size từ PHP
+        var colors = <?= json_encode($color); ?>; // Lấy dữ liệu color từ PHP
+    </script>
 
-  
+
+
+
+<script>
+    // Khởi tạo biến đếm để theo dõi số lượng biến thể
+    var variantIndex = <?= count($getProductID['product_variants']) ?>; // Đếm số biến thể hiện có để tránh trùng lặp
+
+    document.getElementById('add-variant').addEventListener('click', function() {
+        // Lấy khu vực chứa các biến thể sản phẩm bằng id
+        var container = document.getElementById('variant-container');
+
+        // Tạo một div mới để chứa biến thể
+        var newVariant = document.createElement('div');
+        newVariant.classList.add('variant-item', 'mb-4');
+
+        // Tạo danh sách size checkbox từ mảng sizes
+        var sizeCheckboxes = '';
+        sizes.forEach(function(s) {
+            sizeCheckboxes += `
+            <input type="checkbox" class="btn-check" id="size-${s.id}-${variantIndex}" name="size[]" value="${s.id}">
+            <label class="btn btn-light btn-lg avatar-sm rounded d-flex justify-content-center align-items-center" for="size-${s.id}-${variantIndex}">${s.size}</label>
+            `;
+        });
+
+        // Tạo danh sách color checkbox từ mảng colors
+        var colorCheckboxes = '';
+        colors.forEach(function(c) {
+            colorCheckboxes += `
+            <input type="checkbox" class="btn-check" id="color-${c.id}-${variantIndex}" name="color[]" value="${c.id}" autocomplete="off">
+            <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-${c.id}-${variantIndex}">
+                <i class="bx bxs-circle fs-18" style="color: ${c.color_code};"></i>
+            </label>
+            `;
+        });
+
+        // Nội dung của biến thể mới
+        newVariant.innerHTML = `
+        <div class="row mb-4">
+            <div class="col-lg-4">
+                <div class="mt-3">
+                    <h5 class="text-dark fw-medium">Size :</h5>
+                    <div class="d-flex flex-wrap gap-2" role="group" aria-label="Basic checkbox toggle button group">
+                        ${sizeCheckboxes}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="mt-3">
+                    <h5 class="text-dark fw-medium">Colors :</h5>
+                    <div class="d-flex flex-wrap gap-2" role="group" aria-label="Basic checkbox toggle button group">
+                        ${colorCheckboxes}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="mt-3">
+                    <label for="product-stock-${variantIndex}" class="form-label">Quantity</label>
+                    <input type="number" name="quantity[]" id="product-stock-${variantIndex}" class="form-control" placeholder="Quantity">
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-lg-6">
+                <div class="mt-3">
+                    <h5 class="text-dark fw-medium">Price :</h5>
+                    <input type="text" name="price[]" class="form-control" placeholder="Price">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mt-3">
+                    <h5 class="text-dark fw-medium">Sale Price :</h5>
+                    <input type="text" name="salePrice[]" class="form-control" placeholder="Sale Price">
+                </div>
+            </div>
+        </div>
+        `;
+
+        // Thêm biến thể mới vào container
+        container.appendChild(newVariant);
+
+        // Tăng biến đếm lên để id tiếp theo là duy nhất
+        variantIndex++;
+    });
+</script>
+
 
 </div>
 <?php include "../views/admin/layout/footer.php"; ?>

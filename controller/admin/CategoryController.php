@@ -16,11 +16,11 @@ class CategoryController extends Category
                 var_dump($images);
                 if (move_uploaded_file($file['tmp_name'], "./images/category/" .  $images)) {
                     $addCategory = $this->addCategory($_POST['name'], $_POST['description'], $images);
-                    $_SESSION['message'] = "Thêm danh mục thành công!";
+                    $_SESSION['success'] = "Thêm danh mục thành công!";
                     header("Location:index.php?act=category");
                     exit();
                 } else {
-                    $_SESSION['message'] = "Đã xảy ra lỗi. Vui lòng thử lại!";
+                    $_SESSION['error'] = "Đã xảy ra lỗi. Vui lòng thử lại!";
                 }
             }
         }
@@ -32,7 +32,7 @@ class CategoryController extends Category
         if ($listCategory) {
             return $listCategory;
         } else {
-            $_SESSION['message'] = "Danh mục trống !";
+            $_SESSION['error'] = "Danh mục trống !";
         }
     }
 
@@ -42,7 +42,7 @@ class CategoryController extends Category
         if ($getCategoryById) {
             return  $getCategoryById;
         } else {
-            $_SESSION['message'] = 'Không tồn tại danh mục ';
+            $_SESSION['error'] = 'Không tồn tại danh mục ';
             return null;
         }
     }
@@ -65,22 +65,22 @@ class CategoryController extends Category
             }
 
             $updateCate = $this->updateCategory($_GET['id'], $_POST['name'], $_POST['description'], $image);
-            $_SESSION['message'] = "Cập nhật thành công !.";
+            $_SESSION['success'] = "Cập nhật thành công !.";
             header("location:index.php?act=category");
             exit();
         } else {
-            $_SESSION['message'] = "Cập nhật không thành công . Vui lòng thử lại.";
+            $_SESSION['error'] = "Cập nhật không thành công . Vui lòng thử lại.";
         }
     }
 
     public function deleteCate (){
         try {
            $this->deleteCategory($_GET['id']);
-           $_SESSION['message'] = "Xoá danh mục thành công .";
-           header("location: index.php?act=category");
+           header("location:index.php?act=category");
            exit();
         } catch (\Throwable $th) {
-            $_SESSION['message'] = "Xóa danh mục thất bại .Vui lòng thử lại .";
+            echo 'Error: ' . $th->getMessage();
+            $_SESSION['error'] = "Xóa danh mục thất bại .Vui lòng thử lại .";
         }
     }
 }
