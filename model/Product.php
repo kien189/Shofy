@@ -27,11 +27,11 @@ class Product
         return $stmt->fetchAll();
     }
 
-    public function addProduct($name, $image, $priceProduct, $category_id, $description)
+    public function addProduct($name, $image, $priceProduct, $category_id, $description, $salePriceProduct, $slugProduct)
     {
-        $sql = "INSERT INTO product(name,image,price,category_id,description) VALUES(?,?,?,?,?)";
+        $sql = "INSERT INTO product(name,image,price,category_id,description,slug,salePrice) VALUES(?,?,?,?,?,?,?)";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$name, $image, $priceProduct, $category_id, $description]);
+        return $stmt->execute([$name, $image, $priceProduct, $category_id, $description, $salePriceProduct, $slugProduct]);
     }
 
     public function addProductVariant($product_id, $color_id, $size_id, $quantity, $price, $sale_price)
@@ -64,6 +64,8 @@ class Product
                 p.image as product_image, 
                 p.price as product_price, 
                 p.description as product_description, 
+                p.slug as product_slug,
+                p.salePrice  as product_sale_price,
                 c.id as category_id, 
                 c.name as category_name, 
                 pv.id as product_variant_id, 
@@ -87,6 +89,9 @@ class Product
         $stmt = $this->db->query($sql);
         $stmt->execute();
         $results = $stmt->fetchAll();
+        // echo "<pre>";
+        // print_r($results);
+        // echo "</pre>";
         // var_dump($results[0]['product_id']);
         // Tạo một mảng để nhóm các sản phẩm với các biến thể
         $groupedProducts = [];
@@ -102,6 +107,8 @@ class Product
                     'product_image' => $row['product_image'],
                     'product_price' => $row['product_price'],
                     'product_description' => $row['product_description'],
+                    'product_slug' => $row['product_slug'],
+                    'product_sale_price' => $row['product_sale_price'],
                     'category_name' => $row['category_name'],
                     'variants' => [] // Biến thể (kích thước, màu sắc)
                 ];
@@ -114,6 +121,7 @@ class Product
                 'variant_price' => $row['variant_price']
             ];
         }
+
         return  $groupedProducts;
     }
     public function getProductInfo($product_id)
@@ -124,6 +132,8 @@ class Product
                 p.name as product_name, 
                 p.image as product_image, 
                 p.price as product_price, 
+                p.slug as productSlug,
+                p.salePrice as productSalePrice,
                 p.description as product_description, 
                 c.id as category_id, 
                 c.name as category_name
@@ -188,11 +198,11 @@ class Product
     }
 
 
-    public function updateProduct($product_id, $name, $image, $priceProduct, $category_id, $description)
+    public function updateProduct($product_id, $name, $image, $priceProduct, $category_id, $description, $salePriceProduct, $slugProduct)
     {
-        $sql = "UPDATE product SET name = ?, image = ?, price = ?, category_id = ?, description = ? WHERE id = ?";
+        $sql = "UPDATE product SET name = ?, image = ?, price = ?, category_id = ?, description = ? , salePrice = ?, slug = ? WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$name, $image, $priceProduct, $category_id, $description, $product_id]);
+        return $stmt->execute([$name, $image, $priceProduct, $category_id, $description, $salePriceProduct, $slugProduct, $product_id]);
     }
 
     public function updateProductVariant($product_variant_id, $product_id, $color_id, $size_id, $quantity, $price, $sale_price)
@@ -203,25 +213,94 @@ class Product
     }
 
 
-    public function deleteProduct($product_id){
+    public function deleteProduct($product_id)
+    {
         $sql = "DELETE FROM product WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$product_id]);
     }
 
-    public function deleteProductVariant($product_variant_id){
-        $sql="DELETE FROM product_variant WHERE product_id = ?";
+    public function deleteProductVariant($product_variant_id)
+    {
+        $sql = "DELETE FROM product_variant WHERE product_id = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$product_variant_id]);
     }
 
-    public function deleteProductGallery($product_id){
-        $sql="DELETE FROM product_gallery WHERE product_id = ?";
+    public function deleteProductGallery($product_id)
+    {
+        $sql = "DELETE FROM product_gallery WHERE product_id = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$product_id]);
     }
 
 
+    public function getProductDetailBySlug($slug)
+    {
+        $sql = "
+            SELECT 
+                p.id as product_id, 
+                p.name as product_name, 
+                p.image as product_image, 
+                p.price as product_price, 
+                p.description as product_description, 
+                p.slug as product_slug,
+                p.salePrice as product_sale_price,
+                c.name as category_name, 
+                pv.price as variant_price, 
+                pv.sale_price as variant_salePrice,
+                pv.id as product_variant_id,
+                pv.quantity as variant_quantity,
+                vc.color_name as variant_color, 
+                vc.color_code as variant_color_code,
+                vs.size as variant_size,
+                pg.image as product_gallery_image
+            FROM product p
+            LEFT JOIN category c ON p.category_id = c.id
+            LEFT JOIN product_variant pv ON p.id = pv.product_id
+            LEFT JOIN variant_color vc ON pv.variant_color_id = vc.id
+            LEFT JOIN variant_size vs ON pv.variant_size_id = vs.id
+            LEFT JOIN product_gallery pg ON p.id = pg.product_id
+            WHERE p.slug = ?
+        ";
+    
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$slug]);
+        $results = $stmt->fetchAll();
+    
+        $products = [];
+        
+        foreach ($results as $row) {
+            $productId = $row['product_id'];
+    
+            if (!isset($products[$productId])) {
+                $products[$productId] = [
+                    'product_id' => $row['product_id'],
+                    'product_name' => $row['product_name'],
+                    'product_image' => $row['product_image'],
+                    'product_price' => $row['product_price'],
+                    'product_description' => $row['product_description'],
+                    'product_slug' => $row['product_slug'],
+                    'product_sale_price' => $row['product_sale_price'],
+                    'category_name' => $row['category_name'],
+                    'variants' => [],
+                    'gallery_images' => []
+                ];
+            }
+            
+            $variant = ['id'=> $row['product_variant_id'], 'size' =>  $row['variant_size'], 'color_name' => $row['variant_color'],'color_code' => $row['variant_color_code'], 'price' => $row['variant_price'],'salePrice' => $row['variant_salePrice'],'quantity' => $row['variant_quantity'], ];
+            if (!in_array($variant, $products[$productId]['variants'])) {
+                $products[$productId]['variants'][] = $variant; 
+            }
+    
+            if (!in_array($row['product_gallery_image'], $products[$productId]['gallery_images'])) {
+                $products[$productId]['gallery_images'][] = $row['product_gallery_image'];
+            }
+        }
+    
+        return $products;
+    }
+    
 
 
 

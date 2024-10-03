@@ -69,7 +69,7 @@
 
                                     <div class="mb-3">
                                         <label for="slug" class="form-label">Slug</label>
-                                        <input type="text" id="slug" class="form-control" name="slug"  placeholder="Brand Name">
+                                        <input type="text" id="slug" class="form-control" name="slugProduct"  placeholder="Brand Name">
                                     </div>
 
                                 </div>
