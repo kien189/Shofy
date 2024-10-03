@@ -1,16 +1,20 @@
 <?php
 session_start();
-require_once "../controller/client/UserController.php";
 require_once "../controller/admin/AuthController.php";
 require_once "../controller/admin/CategoryController.php";
 require_once "../controller/admin/ProductController.php";
+require_once "../controller/client/UserController.php";
 require_once "../controller/client/HomeController.php";
+require_once "../controller/client/CartController.php";
+require_once "../controller/client/OrderController.php";
 $action = isset($_GET['act']) ? $_GET['act'] : 'index';
 $userController = new UserController();
 $authController = new AuthController();
 $category = new CategoryController();
 $product = new ProductController();
 $home = new HomeController();
+$cart = new CartController();
+$order = new OrderController();
 // $adminRoutes = ['dashboard', 'logout_admin'];
 // if (in_array($action, $adminRoutes) && !$authController->isAdmin()) {
 //     header("Location: index.php?act=admin"); // Chuyển hướng đến trang đăng nhập admin nếu chưa đăng nhập
@@ -20,7 +24,7 @@ $home = new HomeController();
 switch ($action) {
     case 'index':
         $home->index();
-//       include "../views/client/index.php";
+        //       include "../views/client/index.php";
         break;
     case 'login':
         $userController->login();
@@ -39,9 +43,30 @@ switch ($action) {
     case 'reset_password':
         include "../views/client/reset_password.php";
         break;
+    case "product_detail":
+        $home->productDetails();
+        break;
+    case 'addToCart':
+        $cart->AddToCarts();
+        break;
+    case 'cart':
+        include "../views/client/cart/detailCart.php";
+        break;
+    case 'buyNow':
+        $detailCheckout = $cart->getDetailProduct();
+        $getCheckout = $cart->getCart();
+        // echo "<pre>";
+        // print_r($detailCheckout);
+        // echo "</pre>";
+        include "../views/client/checkout/checkout.php";
+        break;
+
+    case 'order':
+        $order->Orders();
+        break;
 
 
-//    admin    =============================================================================================
+        //    admin    =============================================================================================
     case 'admin':
         $authController->login();
         include "../views/admin/auth/login.php";
