@@ -49,7 +49,7 @@
 
                                     <div class="mb-3">
                                         <label for="product-name" class="form-label">Product Name</label>
-                                        <input type="text" id="product-name" name="name" value="<?= $getProductID['product_info']['product_name'] ?>" class="form-control" placeholder="Items Name">
+                                        <input type="text" id="product-name" onkeyup="ChangeToSlug()" name="name" value="<?= $getProductID['product_info']['product_name'] ?>" class="form-control" placeholder="Items Name">
                                     </div>
 
                                 </div>
@@ -67,6 +67,22 @@
                                     <div class="mb-3">
                                         <label for="product-brand" class="form-label">Price</label>
                                         <input type="text" id="product-brand" class="form-control" value="<?= $getProductID['product_info']['product_price'] ?>" name="priceProduct" placeholder="Brand Name">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-4">
+
+                                    <div class="mb-3">
+                                        <label for="product-brand" class="form-label">Sale Price</label>
+                                        <input type="text" id="product-brand" class="form-control" value="<?= $getProductID['product_info']['productSalePrice'] ?>" name="salePriceProduct" placeholder="Brand Name">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-4">
+
+                                    <div class="mb-3">
+                                        <label for="slug" class="form-label">Slug</label>
+                                        <input type="text" id="slug" class="form-control" name="slugProduct" value="<?= $getProductID['product_info']['productSlug'] ?>" placeholder="Brand Name">
                                     </div>
 
                                 </div>
@@ -169,7 +185,7 @@
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="p-3 bg-light mb-3 rounded">
                         <div class="row justify-content-end g-2">
                             <div class="col-lg-2">
@@ -196,40 +212,40 @@
 
 
 
-<script>
-    // Khởi tạo biến đếm để theo dõi số lượng biến thể
-    var variantIndex = <?= count($getProductID['product_variants']) ?>; // Đếm số biến thể hiện có để tránh trùng lặp
+    <script>
+        // Khởi tạo biến đếm để theo dõi số lượng biến thể
+        var variantIndex = <?= count($getProductID['product_variants']) ?>; // Đếm số biến thể hiện có để tránh trùng lặp
 
-    document.getElementById('add-variant').addEventListener('click', function() {
-        // Lấy khu vực chứa các biến thể sản phẩm bằng id
-        var container = document.getElementById('variant-container');
+        document.getElementById('add-variant').addEventListener('click', function() {
+            // Lấy khu vực chứa các biến thể sản phẩm bằng id
+            var container = document.getElementById('variant-container');
 
-        // Tạo một div mới để chứa biến thể
-        var newVariant = document.createElement('div');
-        newVariant.classList.add('variant-item', 'mb-4');
+            // Tạo một div mới để chứa biến thể
+            var newVariant = document.createElement('div');
+            newVariant.classList.add('variant-item', 'mb-4');
 
-        // Tạo danh sách size checkbox từ mảng sizes
-        var sizeCheckboxes = '';
-        sizes.forEach(function(s) {
-            sizeCheckboxes += `
+            // Tạo danh sách size checkbox từ mảng sizes
+            var sizeCheckboxes = '';
+            sizes.forEach(function(s) {
+                sizeCheckboxes += `
             <input type="checkbox" class="btn-check" id="size-${s.id}-${variantIndex}" name="size[]" value="${s.id}">
             <label class="btn btn-light btn-lg avatar-sm rounded d-flex justify-content-center align-items-center" for="size-${s.id}-${variantIndex}">${s.size}</label>
             `;
-        });
+            });
 
-        // Tạo danh sách color checkbox từ mảng colors
-        var colorCheckboxes = '';
-        colors.forEach(function(c) {
-            colorCheckboxes += `
+            // Tạo danh sách color checkbox từ mảng colors
+            var colorCheckboxes = '';
+            colors.forEach(function(c) {
+                colorCheckboxes += `
             <input type="checkbox" class="btn-check" id="color-${c.id}-${variantIndex}" name="color[]" value="${c.id}" autocomplete="off">
             <label class="btn btn-light avatar-sm rounded d-flex justify-content-center align-items-center" for="color-${c.id}-${variantIndex}">
                 <i class="bx bxs-circle fs-18" style="color: ${c.color_code};"></i>
             </label>
             `;
-        });
+            });
 
-        // Nội dung của biến thể mới
-        newVariant.innerHTML = `
+            // Nội dung của biến thể mới
+            newVariant.innerHTML = `
         <div class="row mb-4">
             <div class="col-lg-4">
                 <div class="mt-3">
@@ -270,13 +286,13 @@
         </div>
         `;
 
-        // Thêm biến thể mới vào container
-        container.appendChild(newVariant);
+            // Thêm biến thể mới vào container
+            container.appendChild(newVariant);
 
-        // Tăng biến đếm lên để id tiếp theo là duy nhất
-        variantIndex++;
-    });
-</script>
+            // Tăng biến đếm lên để id tiếp theo là duy nhất
+            variantIndex++;
+        });
+    </script>
 
 
 </div>

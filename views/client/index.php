@@ -315,7 +315,7 @@ include "layout/header.php";
                                         <div class="col-xl-3 col-lg-3 col-sm-6">
                                             <div class="tp-product-item p-relative transition-3 mb-25">
                                                 <div class="tp-product-thumb p-relative fix m-img">
-                                                    <a href="product-details.html">
+                                                    <a href="index.php?act=product_detail&slug=<?= $pro['product_slug'] ?>">
                                                         <img src="./images/product/<?= $pro['product_image'] ?>" alt="product-electronic">
                                                     </a>
 
