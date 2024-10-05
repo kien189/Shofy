@@ -37,12 +37,12 @@ class Order
     }
 
 
-    public function deleteCart()
+    public function deleteCart($cart_id)
     {
 
         $sql = "DELETE FROM cart WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$_POST['cart_id']]);
+        $stmt->execute([$cart_id]);
         return $stmt;
     }
 }

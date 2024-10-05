@@ -80,4 +80,47 @@ class Cart
         $stmt->execute([$_GET['id']]);
         return $stmt->fetchAll();
     }
+
+
+    public function getAllCarts()
+    {
+        $sql = "SELECT
+        p.id as product_id,
+         p.name as product_name,
+         p.slug as product_slug,
+         p.image as product_image,
+         pv.sale_price as variant_price,
+         pv.id as variant_id,
+         vc.color_name as variant_color,
+         vs.size as variant_size,
+         c.quantity as cart_quantity,
+         c.id as cart_id
+        FROM cart c
+        JOIN product p ON c.product_id = p.id
+        JOIN product_variant pv ON c.variant_id = pv.id
+        JOIN variant_color vc ON pv.variant_color_id = vc.id
+        JOIN variant_size vs ON pv.variant_size_id = vs.id
+        WHERE c.user_id = ?
+        ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$_SESSION['user']['id']]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function updateCartById($cartId, $quantity)
+    {
+        $sql = "UPDATE cart SET quantity = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$quantity, $cartId]);
+    }
+
+
+
+    public function deleteCart($cartId)
+    {
+        $sql = "DELETE FROM cart WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$cartId]);
+    }
 }

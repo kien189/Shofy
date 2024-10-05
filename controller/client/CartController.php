@@ -1,6 +1,6 @@
 <?php
 require_once "../model/Cart.php";
-
+require_once "../includes/CartProvider.php";
 class CartController extends Cart
 {
     public function AddToCarts()
@@ -56,16 +56,50 @@ class CartController extends Cart
                 $updateCart = $this->updateCart($_POST['user_id'], $_POST['product_id'], $_POST['variant_id'], $quantity);
                 // $getDetailProduct = $this->getDetailProduct($chekCarts['product_id']);
                 // $_SESSION['getDetailProduct'] = $getDetailProduct;
-                header("Location: index.php?act=buyNow&id=".$chekCarts['id']."&product_id=".$chekCarts['product_id']);
+                header("Location: index.php?act=buyNow&id=" . $chekCarts['id'] . "&product_id=" . $chekCarts['product_id']);
                 exit();
             } else {
                 $byNows = $this->byNow($_POST['user_id'], $_POST['product_id'], $_POST['variant_id'], $_POST['quantity']);
-                header("Location: index.php?act=buyNow&id=".$byNows['id']."&product_id=".$byNows['product_id']);
+                header("Location: index.php?act=buyNow&id=" . $byNows['id'] . "&product_id=" . $byNows['product_id']);
             }
         } catch (\Throwable $th) {
             $_SESSION['error'] = $th->getMessage(); // Ghi lỗi vào session
             header('Location: ' . $_SERVER['HTTP_REFERER']); // Quay lại trang trước đó
             exit();
+        }
+    }
+
+    public function getCarts()
+    {
+        $cartProvider = CartProvider::getInstance();
+        $cartItems = $cartProvider->getCartItems();
+        $total = $cartProvider->sum($cartItems);
+        include "../views/client/cart/detailCart.php";
+    }
+
+
+    public function updateCarts()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['updateCart'])) {
+            if (isset($_POST['quantity'])) {
+                foreach ($_POST['quantity'] as $cartId => $quantity) {
+                    // Gọi phương thức cập nhật giỏ hàng với tham số cartId và quantity
+                    $this->updateCartById($cartId, $quantity);
+                }
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                $_SESSION['success'] = "Cập nhật giỏ hàng thành công";
+                exit();
+            }
+        }
+    }
+
+
+    public function deleleCarts()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['cartId'])) {
+            $this->deleteCart($_GET['cartId']);
+            $_SESSION['success'] = "Xóa sản phẩm thành công";
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
     }
 }
