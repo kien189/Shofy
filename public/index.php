@@ -24,7 +24,6 @@ $order = new OrderController();
 switch ($action) {
     case 'index':
         $home->index();
-        //       include "../views/client/index.php";
         break;
     case 'login':
         $userController->login();
@@ -50,7 +49,13 @@ switch ($action) {
         $cart->AddToCarts();
         break;
     case 'cart':
-        include "../views/client/cart/detailCart.php";
+        $cart->getCarts();
+        break;
+    case 'updateCarts':
+        $cart->updateCarts();
+        break;
+    case 'removeCart':
+        $cart->deleleCarts();
         break;
     case 'buyNow':
         $detailCheckout = $cart->getDetailProduct();
@@ -58,12 +63,18 @@ switch ($action) {
         // echo "<pre>";
         // print_r($detailCheckout);
         // echo "</pre>";
-        include "../views/client/checkout/checkout.php";
+        include "../views/client/buyNow/buyNow.php";
         break;
-
+    case 'checkout':
+        $order->checkout();
+        break;
     case 'order':
         $order->Orders();
         break;
+    case 'shop':
+        $home->shop();
+        break;
+
 
 
         //    admin    =============================================================================================

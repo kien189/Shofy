@@ -66,6 +66,15 @@
 
     ?>
     <!-- pre loader area start -->
+    <?php
+    // Lấy instance của CartProvider
+    $cartProvider = CartProvider::getInstance();
+    $carts = $cartProvider->getCartItems();
+    $sum = $cartProvider->sum($carts);
+    // echo '<pre>'; print_r($carts); echo '</pre>';
+    // Kiểm tra và hiển thị giỏ hàng
+
+    ?>
 
     <!-- pre loader area end -->
 
@@ -263,21 +272,28 @@
                     </div>
                 </div>
                 <div class="cartmini__widget">
-                    <div class="cartmini__widget-item">
-                        <div class="cartmini__thumb">
-                            <a href="product-details.html">
-                                <img src="assets/img/product/product-1.jpg" alt="">
-                            </a>
-                        </div>
-                        <div class="cartmini__content">
-                            <h5 class="cartmini__title"><a href="product-details.html">Level Bolt Smart Lock</a></h5>
-                            <div class="cartmini__price-wrapper">
-                                <span class="cartmini__price">$46.00</span>
-                                <span class="cartmini__quantity">x2</span>
+                    <?php foreach ($carts as $cart) : ?>
+                        <div class="cartmini__widget-item">
+                            <div class="cartmini__thumb">
+                                <a href="index.php?act=product_detail&slug=<?= $cart['product_slug'] ?>">
+                                    <img src="./images/product/<?= $cart['product_image'] ?>" alt="">
+                                </a>
                             </div>
+                            <div class="cartmini__content">
+                                <h5 class="cartmini__title"><a href="product-details.html"><?= $cart['product_name'] ?></a></h5>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="cartmini__price-wrapper">
+                                        <span class="cartmini__price">$<?= $cart['variant_price'] ?>.00</span>
+                                        <span class="cartmini__quantity">x<?= $cart['cart_quantity'] ?></span>
+                                    </div>
+                                    <div class="">
+                                        <span class="cartmini__subtotal fw-bold">$<?= $cart['variant_price'] * $cart['cart_quantity'] ?>.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="index.php?act=removeCart&cartId=<?= $cart['cart_id'] ?>" class="cartmini__del"><i class="fa-regular fa-xmark"></i></a>
                         </div>
-                        <a href="#" class="cartmini__del"><i class="fa-regular fa-xmark"></i></a>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
                 <!-- for wp -->
                 <!-- if no item in cart -->
@@ -290,11 +306,11 @@
             <div class="cartmini__checkout">
                 <div class="cartmini__checkout-title mb-30">
                     <h4>Subtotal:</h4>
-                    <span>$113.00</span>
+                    <span>$<?= isset($carts) ? $sum : '0' ?>.00</span>
                 </div>
                 <div class="cartmini__checkout-btn">
-                    <a href="cart.html" class="tp-btn mb-10 w-100"> view cart</a>
-                    <a href="checkout.html" class="tp-btn tp-btn-border w-100"> checkout</a>
+                    <a href="index.php?act=cart" class="tp-btn mb-10 w-100"> view cart</a>
+                    <a href="index.php?act=checkout" class="tp-btn tp-btn-border w-100"> checkout</a>
                 </div>
             </div>
         </div>
@@ -509,7 +525,7 @@
                                                 <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5"
                                                     stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
-                                            <span class="tp-header-action-badge">13</span>
+                                            <span class="tp-header-action-badge"><?= count($carts) ?></span>
                                         </button>
                                     </div>
                                     <div class="tp-header-action-item d-lg-none">
@@ -1290,7 +1306,7 @@
                                         <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5"
                                             stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                    <span class="tp-header-action-badge">13</span>
+                                    <span class="tp-header-action-badge"><?= count($carts) ?></span>
                                 </button>
                             </div>
                             <div class="tp-header-action-item d-lg-none">

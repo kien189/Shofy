@@ -1,4 +1,5 @@
 <?php include "../views/client/layout/header.php"; ?>
+
 <main>
 
     <!-- breadcrumb area start -->
@@ -183,26 +184,36 @@
                                         <h4>Product</h4>
                                         <h4>Total</h4>
                                     </li>
-                                    <?php foreach ($getCheckout as $key => $detailCheckout) : ?>
-                                        <input type="hidden" name="product_id" value="<?= $detailCheckout['product_id'] ?>" id="">
-                                        <input type="hidden" name="variant_id" value="<?= $detailCheckout['variant_id'] ?>" id="">
-                                        <input type="hidden" name="cart_id" value="<?= $detailCheckout['cart_id'] ?>" id="">
-                                        <input type="hidden" name="quantity" value="<?= $detailCheckout['cart_quantity'] ?>" id="">
-                                        <!-- item list -->
-                                        <li class="tp-order-info-list-desc">
-                                            <p><?= substr($detailCheckout['product_name'], 0, 35) ?>. <span> x 2</span></p>
-                                            <span>$<?= $detailCheckout['variant_price'] * $detailCheckout['cart_quantity'] ?>.00</span>
-                                        </li>
-                                    <?php endforeach ?>
+                                    <input type="hidden" name="product_id" value="<?= $getCheckout[0]['product_id'] ?>">
+                                    <input type="hidden" name="variant_id" value="<?= $getCheckout[0]['variant_id'] ?>">
+                                    <input type="hidden" name="cart_id" value="<?= $getCheckout[0]['id'] ?>">
+                                    <!-- item list -->
+                                    <li class="tp-order-info-list-desc">
+                                        <p><?= substr($detailCheckout['product_name'], 0, 35) . '...  ' ?> <span class="fw-bold" name="quantity"> x <?= $getCheckout[0]['quantity'] ?></span></p>
+                                        <span>$<?= $detailCheckout['variant_sale_price'] ?>.00</span>
+                                    </li>
+                                    <input type="hidden" name="quantity" value="<?= $getCheckout[0]['quantity'] ?>">
+                                    <!-- <li class="tp-order-info-list-desc">
+                                        <p>Office Chair Multifun <span> x 1</span></p>
+                                        <span><?= $detailCheckout['variant_price'] ?></span>
+                                    </li>
+                                    <li class="tp-order-info-list-desc">
+                                        <p>Apple Watch Series 6 Stainless <span> x 3</span></p>
+                                        <span><?= $detailCheckout['variant_sale_price'] ?></span>
+                                    </li>
+                                    <li class="tp-order-info-list-desc">
+                                        <p>Body Works Mens Collection <span> x 1</span></p>
+                                        <span>$145:00</span>
+                                    </li> -->
 
                                     <!-- subtotal -->
                                     <li class="tp-order-info-list-subtotal">
                                         <span>Subtotal</span>
-                                        <span>$<?= $total ?>.00</span>
+                                        <span>$<?= $detailCheckout['variant_sale_price'] * $getCheckout[0]['quantity'] ?>.00</span>
                                     </li>
 
                                     <!-- shipping -->
-                                    <li class="tp-order-info-list-shipping">
+                                    <!-- <li class="tp-order-info-list-shipping">
                                         <span>Shipping</span>
                                         <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
                                             <span>
@@ -218,13 +229,13 @@
                                                 <label for="free_shipping">Free shipping</label>
                                             </span>
                                         </div>
-                                    </li>
+                                    </li> -->
 
                                     <!-- total -->
                                     <li class="tp-order-info-list-total">
                                         <span>Total</span>
-                                        <input type="hidden" name="amout" value="<?= $total ?>">
-                                        <span>$<?= $total ?>.00</span>
+                                        <span name="amout">$<?= $detailCheckout['variant_sale_price'] * $getCheckout[0]['quantity'] ?>.00</span>
+                                        <input type="hidden" name="amout" value="<?= $detailCheckout['variant_sale_price'] * $getCheckout[0]['quantity'] ?>">
                                     </li>
                                 </ul>
                             </div>
@@ -233,21 +244,21 @@
                                     <input type="radio" id="back_transfer" name="payment">
                                     <label for="back_transfer" data-bs-toggle="direct-bank-transfer">Direct Bank Transfer</label>
                                     <div class="tp-checkout-payment-desc direct-bank-transfer">
-                                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+                                        <p>Thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng Mã đơn hàng của bạn làm tham chiếu thanh toán. Đơn hàng của bạn sẽ không được giao cho đến khi tiền được chuyển vào tài khoản của chúng tôi.</p>
                                     </div>
                                 </div>
                                 <div class="tp-checkout-payment-item">
                                     <input type="radio" id="cheque_payment" name="payment">
                                     <label for="cheque_payment">Cheque Payment</label>
                                     <div class="tp-checkout-payment-desc cheque-payment">
-                                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+                                        <p>Thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng Mã đơn hàng của bạn làm tham chiếu thanh toán. Đơn hàng của bạn sẽ không được giao cho đến khi tiền được chuyển vào tài khoản của chúng tôi.</p>
                                     </div>
                                 </div>
                                 <div class="tp-checkout-payment-item">
                                     <input type="radio" id="cod" name="payment">
                                     <label for="cod">Cash on Delivery</label>
                                     <div class="tp-checkout-payment-desc cash-on-delivery">
-                                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+                                        <p>Thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng Mã đơn hàng của bạn làm tham chiếu thanh toán. Đơn hàng của bạn sẽ không được giao cho đến khi tiền được chuyển vào tài khoản của chúng tôi.</p>
                                     </div>
                                 </div>
                                 <div class="tp-checkout-payment-item paypal-payment">
@@ -274,4 +285,5 @@
 
 
 </main>
+
 <?php include "../views/client/layout/footer.php"; ?>

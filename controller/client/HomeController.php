@@ -1,27 +1,42 @@
 <?php
 require_once "../model/Product.php";
 require_once "../model/Category.php";
-
+require_once "../includes/CartProvider.php";
 class HomeController
 {
     protected $productModel;
     protected $categoryModel;
 
+    protected $cartModel;
     public function __construct()
     {
         $this->productModel = new Product();
         $this->categoryModel = new Category();
+        $this->cartModel = new Cart();
     }
 
     public function index()
     {
-        $products = $this->productModel->getAllProduct();
         // echo '<pre>';
         // print_r($products);
         // echo '</pre>';
+        //Lấy instace của cartProvider
+        // $cartProvider = CartProvider::getInstance();
+        // $cartProvider->updateCarts();
+        // $cartItems = $cartProvider->getCartItems();
+        // $carts = $this->cartModel->getAllCarts();
+        // echo '<pre>';
+        // print_r($carts);
+        // echo '</pre>';
+        $products = $this->productModel->getAllProduct();
         $categories = $this->categoryModel->getAllCategory();
         shuffle($products);
         shuffle($categories);
+
+        // Truyền biến $carts vào header
+        // require_once "../views/client/layout/header.php";
+
+        // Sau đó load trang index
         require_once "../views/client/index.php";
     }
 
@@ -59,5 +74,12 @@ class HomeController
         require_once "../views/client/product/detail.php";
     }
 
-   
+
+    public function shop(){
+        $products = $this->productModel->getAllProduct();
+        // echo '<pre>';
+        // print_r($products);
+        // echo '</pre>';
+        require_once "../views/client/shop/shop.php";
+    }
 }
