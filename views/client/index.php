@@ -2280,9 +2280,9 @@ include "layout/header.php";
                             ?>
                             <?php foreach ($limitedProducts as $product) : ?>
                                 <div class="tp-product-sm-item d-flex align-items-center">
-                                    <div class="tp-product-thumb mr-25 fix">
+                                    <div class=" mr-25 fix">
                                         <a href="product-details.html">
-                                            <img src="./images/product/<?=$product['product_image'] ?>" alt="">
+                                            <img src="./images/product/<?=$product['product_image'] ?>" width="150px" alt="">
                                         </a>
                                     </div>
                                     <div class="tp-product-sm-content">

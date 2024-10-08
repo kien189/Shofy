@@ -1,7 +1,7 @@
 <?php 
 
 function conectDB()  {
-    $serverName = "localhost";
+    $serverName = "localhost:3366";
     $userName = "root";
     $password = "";
     $myDB = "du_an_1";
