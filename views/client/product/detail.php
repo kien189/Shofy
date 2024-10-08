@@ -54,8 +54,8 @@
 
                     <div class="col-xl-5 col-lg-6">
                         <form action="index.php?act=addToCart" method="post">
-                            <input type="hidden" name="product_id" value="<?= $productDetail['product_id'] ?>" >
-                            <input type="hidden" name="user_id" value="<?= $_SESSION['user']['id'] ?>" >
+                            <input type="hidden" name="product_id" value="<?= $productDetail['product_id'] ?>">
+                            <input type="hidden" name="user_id" value="<?= $_SESSION['user']['id'] ?? null  ?>">
                             <div class="tp-product-details-wrapper">
                                 <div class="tp-product-details-category">
                                     <span><?= $productDetail['category_name'] ?></span>
@@ -951,46 +951,91 @@
 </main>
 
 <script>
+    // Đợi DOM được tải hoàn toàn trước khi chạy code
     document.addEventListener('DOMContentLoaded', function() {
-        let selectedColor = null;
-        let selectedSize = null;
+        let selectedColor = null; // Biến để lưu màu đã chọn
+        let selectedSize = null;  // Biến để lưu kích thước đã chọn
 
-        // Chuyển dữ liệu từ PHP sang JavaScript
-        const variants = <?= json_encode($variants) ?>; // Tất cả các biến thể sản phẩm
-        console.log(variants);
+        // Chuyển dữ liệu từ PHP sang JavaScript - các biến thể sản phẩm
+        const variants = <?= json_encode($variants) ?>; // Lấy danh sách tất cả biến thể sản phẩm từ PHP
+        console.log(variants); // Log ra console để kiểm tra dữ liệu
 
-        const colorButtons = document.querySelectorAll('.variants-color');
-        const sizeButtons = document.querySelectorAll('.variants-size');
-        console.log(colorButtons, sizeButtons);
+        // Lấy danh sách tất cả các button màu và kích thước từ giao diện
+        const colorButtons = document.querySelectorAll('.variants-color'); // Các nút chọn màu
+        const sizeButtons = document.querySelectorAll('.variants-size');   // Các nút chọn kích thước
+        console.log(colorButtons, sizeButtons); // Log ra để kiểm tra danh sách nút
 
-        // Xử lý chọn màu
+        // Xử lý sự kiện khi người dùng chọn một màu
         colorButtons.forEach(button => {
             button.addEventListener('click', function() {
-                selectedColor = this.getAttribute('data-color');
-                checkAndUpdatePrice();
+                selectedColor = this.getAttribute('data-color'); // Lấy mã màu từ thuộc tính 'data-color'
+                updateAvailableSizes(); // Cập nhật lại danh sách kích thước khả dụng dựa trên màu đã chọn
+                checkAndUpdatePrice();   // Kiểm tra và cập nhật giá sản phẩm nếu có biến thể phù hợp
             });
         });
 
-        // Xử lý chọn kích thước
+        // Xử lý sự kiện khi người dùng chọn kích thước
         sizeButtons.forEach(button => {
             button.addEventListener('click', function() {
-                selectedSize = this.getAttribute('data-size');
-                checkAndUpdatePrice();
+                selectedSize = this.getAttribute('data-size'); // Lấy kích thước từ thuộc tính 'data-size'
+                updateAvailableColors(); // Cập nhật lại danh sách màu khả dụng dựa trên kích thước đã chọn
+                checkAndUpdatePrice();   // Kiểm tra và cập nhật giá sản phẩm nếu có biến thể phù hợp
             });
         });
 
-        // Hàm kiểm tra và cập nhật giá
+        // Hàm kiểm tra và cập nhật giá dựa trên màu và kích thước đã chọn
         function checkAndUpdatePrice() {
+            // Kiểm tra xem đã chọn cả màu và kích thước chưa
             if (selectedColor && selectedSize) {
+                // Tìm biến thể phù hợp với màu và kích thước đã chọn
                 const matchedVariant = variants.find(variant => variant.color_code === selectedColor && variant.size === selectedSize);
-                console.log('Matched variant:', matchedVariant);
+                console.log('Matched variant:', matchedVariant); // Log ra để kiểm tra biến thể tìm thấy
+
                 if (matchedVariant) {
-                    const price = document.querySelector('.old-price-variants').textContent = `$${parseFloat(matchedVariant.price).toFixed(2)}`;;
-                    const salePrice = document.querySelector('.new-price-variants').textContent = `$${parseFloat(matchedVariant.salePrice).toFixed(2)}`;;
-                    const quantity = document.querySelector('.variant-quantity').textContent = `Quantity:${matchedVariant.quantity}`;;
-                    document.getElementById('variant_id').value = matchedVariant.id; // Lưu variant_id
+                    // Nếu tìm thấy biến thể, cập nhật giá cũ, giá mới và số lượng tương ứng
+                    document.querySelector('.old-price-variants').textContent = `$${parseFloat(matchedVariant.price).toFixed(2)}`; // Hiển thị giá cũ
+                    document.querySelector('.new-price-variants').textContent = `$${parseFloat(matchedVariant.salePrice).toFixed(2)}`; // Hiển thị giá giảm
+                    document.querySelector('.variant-quantity').textContent = `Quantity: ${matchedVariant.quantity}`; // Hiển thị số lượng còn lại
+                    document.getElementById('variant_id').value = matchedVariant.id; // Lưu variant_id vào input ẩn để sử dụng sau (ví dụ trong form đặt hàng)
+                } else {
+                    // Nếu không có biến thể nào phù hợp, reset các thông tin hiển thị
+                    document.querySelector('.old-price-variants').textContent = ''; // Xóa giá cũ
+                    document.querySelector('.new-price-variants').textContent = ''; // Xóa giá giảm
+                    document.querySelector('.variant-quantity').textContent = 'Quantity: 0'; // Đặt số lượng về 0
+                    document.getElementById('variant_id').value = ''; // Xóa giá trị variant_id
                 }
             }
+        }
+
+        // Cập nhật danh sách kích thước khả dụng dựa trên màu đã chọn
+        function updateAvailableSizes() {
+            sizeButtons.forEach(button => {
+                // Xóa class hiển thị kích thước đã chọn trước đó (active hoặc bordered)
+                button.classList.remove('active', 'bordered');
+
+                const size = button.getAttribute('data-size'); // Lấy kích thước từ nút
+                // Kiểm tra xem biến thể nào có màu đã chọn và kích thước này không
+                const isAvailable = variants.some(variant => variant.color_code === selectedColor && variant.size === size);
+                button.disabled = !isAvailable; // Vô hiệu hóa nút kích thước nếu không có biến thể phù hợp
+
+                // Nếu kích thước này không khả dụng, bỏ class 'selected' nếu có
+                if (!isAvailable) {
+                    button.classList.remove('selected');
+                }
+            });
+
+            // Nếu kích thước đã chọn không còn khả dụng, reset giá trị của selectedSize
+            selectedSize = null;
+        }
+
+        // Cập nhật danh sách màu khả dụng dựa trên kích thước đã chọn
+        function updateAvailableColors() {
+            colorButtons.forEach(button => {
+                const color = button.getAttribute('data-color'); // Lấy mã màu từ nút
+                // Kiểm tra xem biến thể nào có kích thước đã chọn và màu này không
+                const isAvailable = variants.some(variant => variant.size === selectedSize && variant.color_code === color);
+                // button.disabled = !isAvailable; // (Tùy chọn) Vô hiệu hóa nút màu nếu không có biến thể phù hợp
+            });
         }
     });
 </script>

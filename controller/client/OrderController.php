@@ -2,8 +2,14 @@
 
 require_once "../model/Order.php";
 require_once "../includes/cartProvider.php";
+require_once "../controller/client/PaymentController.php";
 class OrderController extends Order
 {
+    protected $paymentMethod;
+
+    public function __construct(){
+        $this->paymentMethod = new PaymentController();
+    }
 
 
     public function Orders()
@@ -31,6 +37,12 @@ class OrderController extends Order
                     $_SESSION['error'] = "Đặt hàng thất bại!";
                     header('Location: ' . $_SERVER['HTTP_REFERER']);
                 }
+            } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['momo'])) {
+                $this->paymentMethod->momoPayment();
+                exit();
+            } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['vnpay'])) {
+               $this->paymentMethod->vnpayPayment();
+               exit();
             }
         } catch (\Throwable $th) {
             echo $th->getMessage();

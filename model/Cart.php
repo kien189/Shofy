@@ -103,7 +103,7 @@ class Cart
         WHERE c.user_id = ?
         ";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$_SESSION['user']['id']]);
+        $stmt->execute([$_SESSION['user']['id'] ?? null]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

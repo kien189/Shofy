@@ -230,15 +230,15 @@
                             </div>
                             <div class="tp-checkout-payment">
                                 <div class="tp-checkout-payment-item">
-                                    <input type="radio" id="back_transfer" name="payment">
-                                    <label for="back_transfer" data-bs-toggle="direct-bank-transfer">Direct Bank Transfer</label>
+                                    <input type="radio" id="momoPayment" name="payment">
+                                    <label for="momoPayment" data-bs-toggle="direct-bank-transfer">Momo</label>
                                     <div class="tp-checkout-payment-desc direct-bank-transfer">
                                         <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
                                     </div>
                                 </div>
                                 <div class="tp-checkout-payment-item">
-                                    <input type="radio" id="cheque_payment" name="payment">
-                                    <label for="cheque_payment">Cheque Payment</label>
+                                    <input type="radio" id="vnpayPayment" name="payment">
+                                    <label for="vnpayPayment">VnPay</label>
                                     <div class="tp-checkout-payment-desc cheque-payment">
                                         <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
                                     </div>
@@ -262,7 +262,7 @@
                                 </div>
                             </div>
                             <div class="tp-checkout-btn-wrapper">
-                                <button type="submit" class="tp-checkout-btn w-100" name="checkout">Place Order</button>
+                                <button type="submit" id="checkout-button" class="tp-checkout-btn w-100" name="checkout">Place Order</button>
                             </div>
                         </div>
                     </div>
@@ -272,6 +272,31 @@
     </section>
     <!-- checkout area end -->
 
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkoutButton = document.getElementById('checkout-button');
+            const paymentMethods = [{
+                    element: document.getElementById('momoPayment'),
+                    name: 'momo'
+                },
+                {
+                    element: document.getElementById('vnpayPayment'),
+                    name: 'vnpay'
+                },
+                {
+                    element: document.getElementById('cod'),
+                    name: 'checkout'
+                },
+            ];
+            paymentMethods.forEach(method => {
+                method.element.addEventListener('change', function() {
+                    if (this.checked) {
+                        checkoutButton.setAttribute('name', method.name);
+                        console.log(` button name is now:`, method.name);
+                    }
+                })
+            })
+        })
+    </script>
 </main>
 <?php include "../views/client/layout/footer.php"; ?>
