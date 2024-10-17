@@ -1,7 +1,7 @@
 <?php 
 
 function conectDB()  {
-    $serverName = "localhost:3366";
+    $serverName = "localhost";
     $userName = "root";
     $password = "";
     $myDB = "du_an_1";
@@ -12,5 +12,9 @@ function conectDB()  {
         return $conn;
     } catch (\Throwable $th) {
         echo "Connection failed: " . $th->getMessage();
+        return null;
     }
+
+    
 }
+

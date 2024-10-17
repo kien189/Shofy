@@ -1,7 +1,7 @@
 <?php
 require_once "../model/Product.php";
 
-class ProductController extends Product
+class ProductAdminController extends Product
 {
 
     public function getAllColor()
@@ -20,7 +20,7 @@ class ProductController extends Product
             $fileName = basename($file['name']);
             $images = uniqid() . '-' . preg_replace('/[^A-Za-z0-9\-_\.]+/', '-', $fileName); // Biểu thức chính quy đúng cú pháp
             if (move_uploaded_file($file['tmp_name'], "./images/product/" .  $images)) {
-                $addProduct = $this->addProduct($_POST['name'], $images, $_POST['priceProduct'], $_POST['category_id'], $_POST['description'], $_POST['slugProduct'],$_POST['salePriceProduct']);
+                $addProduct = $this->addProduct($_POST['name'], $images, $_POST['priceProduct'], $_POST['category_id'], $_POST['description'], $_POST['slugProduct'], $_POST['salePriceProduct']);
                 if ($addProduct) {
                     $product_id = $this->getLastInsertId();
                     if (isset($_POST['size']) && isset($_POST['color'])) {
@@ -111,7 +111,7 @@ class ProductController extends Product
             }
 
             // Cập nhật thông tin sản phẩm
-            $updateProduct = $this->updateProduct($_GET['product_id'], $_POST['name'], $images, $_POST['priceProduct'], $_POST['category_id'], $_POST['description'],$_POST['salePriceProduct'], $_POST['slugProduct']);
+            $updateProduct = $this->updateProduct($_GET['product_id'], $_POST['name'], $images, $_POST['priceProduct'], $_POST['category_id'], $_POST['description'], $_POST['salePriceProduct'], $_POST['slugProduct']);
 
             if ($updateProduct) {
                 $product_id = $_GET['product_id']; // Lấy ID sản phẩm trực tiếp từ URL
@@ -210,5 +210,19 @@ class ProductController extends Product
         }
     }
 
-    
+    public function deleteGallery()
+    {
+        try {
+            $removeGallery = $this->removeGalleryById();
+            if ($removeGallery) {
+                $_SESSION['success'] = 'Xoá ảnh khỏi thư viện ảnh thành công';
+                header("location:" . $_SERVER['HTTP_REFERER']);
+            } else {
+                $_SESSION['error'] = 'Đã có lỗi xảy ra vui lòng thử lại !';
+                header("location:" . $_SERVER['HTTP_REFERER']);
+            }
+        } catch (\Throwable $th) {
+            $_SESSION['error'] = '500 Server !' . $th->getMessage();
+        }
+    }
 }

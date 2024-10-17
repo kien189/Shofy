@@ -17,6 +17,33 @@ class Category
         return $stmt->fetchAll();
     }
 
+    public function getProductCountByCategory($categoryId)
+    {
+        $sql= "SELECT COUNT(*) FROM `product` WHERE category_id= ?";
+        $stmt=$this->db->prepare($sql);
+        $stmt->execute([$categoryId]);
+        return $stmt->fetchColumn();
+    }
+
+    public function getProductByCateId()
+    {
+        $sql = "select 
+            c.id as id ,
+            c.name as category_name,
+            p.name as product_name ,
+            p.slug as product_slug,
+            p.price as product_price,
+            p.salePrice as product_salePrice,
+            p.image as product_image
+        from 
+         category c
+        left join  product p on  c.id = p.category_id 
+        where c.id = ?
+        ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$_GET['category_id']]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function addCategory($name, $description, $images)
     {

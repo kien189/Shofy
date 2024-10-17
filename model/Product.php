@@ -153,7 +153,7 @@ class Product
     public function getProductGallery($product_id)
     {
         $sql = "
-        SELECT image 
+        SELECT image ,id
         FROM product_gallery
         WHERE product_id = ?
     ";
@@ -263,16 +263,16 @@ class Product
             LEFT JOIN product_gallery pg ON p.id = pg.product_id
             WHERE p.slug = ?
         ";
-    
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$slug]);
         $results = $stmt->fetchAll();
-    
+
         $products = [];
-        
+
         foreach ($results as $row) {
             $productId = $row['product_id'];
-    
+
             if (!isset($products[$productId])) {
                 $products[$productId] = [
                     'product_id' => $row['product_id'],
@@ -287,20 +287,56 @@ class Product
                     'gallery_images' => []
                 ];
             }
-            
-            $variant = ['id'=> $row['product_variant_id'], 'size' =>  $row['variant_size'], 'color_name' => $row['variant_color'],'color_code' => $row['variant_color_code'], 'price' => $row['variant_price'],'salePrice' => $row['variant_salePrice'],'quantity' => $row['variant_quantity'], ];
+
+            $variant = ['id' => $row['product_variant_id'], 'size' =>  $row['variant_size'], 'color_name' => $row['variant_color'], 'color_code' => $row['variant_color_code'], 'price' => $row['variant_price'], 'salePrice' => $row['variant_salePrice'], 'quantity' => $row['variant_quantity'],];
             if (!in_array($variant, $products[$productId]['variants'])) {
-                $products[$productId]['variants'][] = $variant; 
+                $products[$productId]['variants'][] = $variant;
             }
-    
+
             if (!in_array($row['product_gallery_image'], $products[$productId]['gallery_images'])) {
                 $products[$productId]['gallery_images'][] = $row['product_gallery_image'];
             }
         }
-    
+
         return $products;
     }
-    
+
+
+    public function searchProduct($keyword)
+    {
+        $sql = " SELECT 
+                p.id as product_id, 
+                p.name as product_name, 
+                p.image as product_image, 
+                p.price as product_price, 
+                p.slug as product_slug,
+                p.salePrice as product_sale_price,
+                c.id as category_id, 
+                c.name as category_name
+            FROM 
+                product p
+            LEFT JOIN 
+                category c ON p.category_id = c.id
+            WHERE p.name like ?
+        ";
+        $stmt = $this->db->prepare($sql);
+        // $keyword = '%'.$keyword.'%';
+        $stmt->execute(['%' . $keyword . '%']);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function filterCategory()
+    {
+        $sql = "";
+    }
+
+    public function removeGalleryById()
+    {
+        $sql = "delete from product_gallery where id =? ";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$_GET['id']]);
+    }
 
 
 

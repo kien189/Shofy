@@ -18,9 +18,9 @@
                         <div class="card-body">
                             <!-- File Upload -->
                             <img src="./images/product/<?= $getProductID['product_info']['product_image'] ?>"
-                                alt="" class="avatar-md">
+                                alt="" class="avatar-md mt-3">
                             <input type="hidden" name="oldImage" value="<?= $getProductID['product_info']['product_image'] ?>">
-                            <input type="file" name="image" class="form-control">
+                            <input type="file" name="image" class="form-control mt-3">
                         </div>
                     </div>
                     <div class="card">
@@ -29,13 +29,18 @@
                         </div>
                         <div class="card-body">
                             <!-- File Upload -->
+                          
                             <?php foreach ($getProductID['product_gallery'] as $image): ?>
-
-                                <img src="./images/productGalery/<?= $image['image'] ?>"
-                                    alt="" class="avatar-md">
-                                <input type="hidden" name="oldImages[]" value="<?= $image['image'] ?>">
+                                <div class="imgGalerry mt-3" >
+                                    <a href="index.php?act=deleteGallery&id=<?=$image['id']?>" class="remove-btn" type="button" onclick="return confirm('Bạn có muốn xóa ảnh này khỏi thư mục ảnh không ? ')"
+                                        ><i class='bx bx-trash'></i></a>
+                                    <img src="./images/productGalery/<?= $image['image'] ?>" alt="" class="avatar-md">
+                                    <input type="hidden" name="oldImages[]" value="<?= $image['image'] ?>">
+                                </div>
                             <?php endforeach; ?>
-                            <input type="file" name="images[]" class="form-control" multiple>
+
+
+                            <input type="file" name="images[]" class="form-control mt-3" multiple>
                         </div>
                     </div>
                     <div class="card">

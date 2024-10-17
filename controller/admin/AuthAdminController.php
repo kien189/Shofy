@@ -1,6 +1,6 @@
 <?php
 require_once "../model/User.php";
-class AuthController
+class AuthAdminController
 {
     protected $userModel;
     public function __construct()

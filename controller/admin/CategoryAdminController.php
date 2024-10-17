@@ -1,6 +1,6 @@
 <?php
 require_once "../model/Category.php";
-class CategoryController extends Category
+class CategoryAdminController extends Category
 {
     public function createCategory()
     {
