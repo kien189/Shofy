@@ -1,0 +1,30 @@
+.imgGalerry {
+    display: inline-block;
+    position: relative;
+    margin-right: 8px;
+    border: 1px solid transparent;
+    transition: border 0.2s ease-in-out;
+    box-sizing: border-box;
+}
+
+.imgGalerry:hover {
+    border-color: red;
+    border-style: dashed;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Ẩn nút xóa ban đầu */
+.remove-btn {
+    display: none;
+    transition: opacity 0.2s ease-in-out;
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Hiển thị nút xóa khi hover */
+.imgGalerry:hover .remove-btn {
+    display: block;
+}

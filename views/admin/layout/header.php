@@ -24,6 +24,7 @@
 
     <!-- App css (Require in all Page) -->
     <link href="assets_admin/css/app.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets_admin/css/edit.css" rel="stylesheet" type="text/css" />
 
     <!-- Theme Config js (Require in all Page) -->
     <script src="assets_admin/js/config.js"></script>
@@ -593,16 +594,7 @@
                             <ul class="nav sub-navbar-nav">
 
                                 <li class="sub-nav-item">
-                                    <a class="sub-nav-link" href="orders-list.html">List</a>
-                                </li>
-                                <li class="sub-nav-item">
-                                    <a class="sub-nav-link" href="order-detail.html">Details</a>
-                                </li>
-                                <li class="sub-nav-item">
-                                    <a class="sub-nav-link" href="order-cart.html">Cart</a>
-                                </li>
-                                <li class="sub-nav-item">
-                                    <a class="sub-nav-link" href="order-checkout.html">Check Out</a>
+                                    <a class="sub-nav-link" href="index.php?act=orders">List</a>
                                 </li>
                             </ul>
                         </div>

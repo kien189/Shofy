@@ -1,7 +1,8 @@
 <?php
-
+require_once "../controller/client/OrderController.php";
 class PaymentController
 {
+
 
     public  function execPostRequest($url, $data)
     {
@@ -35,7 +36,7 @@ class PaymentController
         $accessKey = 'klm05TvNBzhg7h7j';
         $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
         $orderInfo = "Thanh toán qua MoMo";
-        $amount = "10000";
+        $amount = $_POST['amount'] * 100;
         $orderId = rand(000, 999);
         $redirectUrl = "http://localhost:8000/";
         $ipnUrl = "http://localhost:8000/";
@@ -67,7 +68,6 @@ class PaymentController
 
             $result = $this->execPostRequest($endpoint, json_encode($data));
             $jsonResult = json_decode($result, true); // Giải mã json
-
             // Kiểm tra và chuyển hướng đến payUrl
             if (isset($jsonResult['payUrl'])) {
                 header('Location: ' . $jsonResult['payUrl']);
@@ -81,48 +81,25 @@ class PaymentController
     }
 
 
+
     public function vnpayPayment()
     {
-
         error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost:8000/";
+        $vnp_Returnurl = "http://localhost:8000/index.php?act=vnpayReturn";
         $vnp_TmnCode = "AB5KXHTL"; //Mã website tại VNPAY 
         $vnp_HashSecret = "UPJTP6WYL5P1DRCDK7M003GD8MNNP0SI"; //Chuỗi bí mật
 
-        $vnp_TxnRef = rand(00000, 99999); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
+        $vnp_TxnRef = rand(0, 999999999); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này 
         // sang VNPAY
-        $vnp_OrderInfo = "Thanh toán qua VNPAY";
-        $vnp_OrderType = "Shofy";
-        $vnp_Amount = 10000 * 100;
+        $vnp_OrderInfo = 'Thanh toán vnpay';
+        $vnp_OrderType = 'Shofy';
+        $vnp_Amount = $_POST['amount'] * 10000;
         $vnp_Locale = 'vn';
         $vnp_BankCode = '';
-        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'] == '::1' ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
         //Add Params of 2.0.1 Version
-        // $vnp_ExpireDate = $_POST['txtexpire'];
-        // //Billing
-        // $vnp_Bill_Mobile = $_POST['txt_billing_mobile'];
-        // $vnp_Bill_Email = $_POST['txt_billing_email'];
-        // $fullName = trim($_POST['txt_billing_fullname']);
-        // if (isset($fullName) && trim($fullName) != '') {
-        //     $name = explode(' ', $fullName);
-        //     $vnp_Bill_FirstName = array_shift($name);
-        //     $vnp_Bill_LastName = array_pop($name);
-        // }
-        // $vnp_Bill_Address = $_POST['txt_inv_addr1'];
-        // $vnp_Bill_City = $_POST['txt_bill_city'];
-        // $vnp_Bill_Country = $_POST['txt_bill_country'];
-        // $vnp_Bill_State = $_POST['txt_bill_state'];
-        // // Invoice
-        // $vnp_Inv_Phone = $_POST['txt_inv_mobile'];
-        // $vnp_Inv_Email = $_POST['txt_inv_email'];
-        // $vnp_Inv_Customer = $_POST['txt_inv_customer'];
-        // $vnp_Inv_Address = $_POST['txt_inv_addr1'];
-        // $vnp_Inv_Company = $_POST['txt_inv_company'];
-        // $vnp_Inv_Taxcode = $_POST['txt_inv_taxcode'];
-        // $vnp_Inv_Type = $_POST['cbo_inv_type'];
         $inputData = array(
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
@@ -136,21 +113,6 @@ class PaymentController
             "vnp_OrderType" => $vnp_OrderType,
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
-            // "vnp_ExpireDate" => $vnp_ExpireDate,
-            // "vnp_Bill_Mobile" => $vnp_Bill_Mobile,
-            // "vnp_Bill_Email" => $vnp_Bill_Email,
-            // "vnp_Bill_FirstName" => $vnp_Bill_FirstName,
-            // "vnp_Bill_LastName" => $vnp_Bill_LastName,
-            // "vnp_Bill_Address" => $vnp_Bill_Address,
-            // "vnp_Bill_City" => $vnp_Bill_City,
-            // "vnp_Bill_Country" => $vnp_Bill_Country,
-            // "vnp_Inv_Phone" => $vnp_Inv_Phone,
-            // "vnp_Inv_Email" => $vnp_Inv_Email,
-            // "vnp_Inv_Customer" => $vnp_Inv_Customer,
-            // "vnp_Inv_Address" => $vnp_Inv_Address,
-            // "vnp_Inv_Company" => $vnp_Inv_Company,
-            // "vnp_Inv_Taxcode" => $vnp_Inv_Taxcode,
-            // "vnp_Inv_Type" => $vnp_Inv_Type
         );
 
         if (isset($vnp_BankCode) && $vnp_BankCode != "") {
@@ -185,13 +147,12 @@ class PaymentController
             'message' => 'success',
             'data' => $vnp_Url
         );
+
         if (isset($_POST['vnpay'])) {
             header('Location: ' . $vnp_Url);
             die();
         } else {
             echo json_encode($returnData);
         }
-        // vui lòng tham khảo thêm tại code demo
-
     }
 }

@@ -8,6 +8,7 @@ class HomeController
     protected $categoryModel;
 
     protected $cartModel;
+
     public function __construct()
     {
         $this->productModel = new Product();
@@ -75,11 +76,52 @@ class HomeController
     }
 
 
-    public function shop(){
+    public function shop()
+    {
         $products = $this->productModel->getAllProduct();
+        $categories = $this->categoryModel->getAllCategory();
+        $countCate = $this->CountCate($categories);
+        $searchProduct = $this->search();
+       
         // echo '<pre>';
-        // print_r($products);
-        // echo '</pre>';
-        require_once "../views/client/shop/shop.php";
+        // print_r($searchProduct);
+        // echo '<pre>';
+        return $data = [
+            'products' => $products,
+            'categories' => $categories,
+            'countCate' => $countCate,
+            'searchProduct' => $searchProduct
+        ];
+    }
+
+    public function CountCate($categories)
+    {
+        $countCate = [];
+        foreach ($categories as $cate) {
+            $countCate[$cate['id']] = $this->categoryModel->getProductCountByCategory($cate['id']);
+        }
+        return $countCate;
+    }
+
+    public function search()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchProduct'])) {
+            $_SESSION['keyword'] = $_POST['keyword'];
+            $searchProduct = $this->productModel->searchProduct($_POST['keyword']);
+            $keyword =  str_replace(' ', '-', $_POST['keyword']);
+            if($searchProduct){
+                $_SESSION['success'] = 'Danh sách sản phẩm với keyword' . ' ' . $_POST['keyword'];
+            }else{
+                $_SESSION['error'] = 'Không tìm thấy sản phẩm với keyword' . ' ' . $_POST['keyword'];
+            }
+            return $searchProduct;
+        }
+    }
+    public function filterCateById()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['category_id'])) {
+            $getProductByCate = $this->categoryModel->getProductByCateId();
+            return $getProductByCate ?? null;
+        }
     }
 }

@@ -1,20 +1,24 @@
 <?php
 session_start();
-require_once "../controller/admin/AuthController.php";
-require_once "../controller/admin/CategoryController.php";
-require_once "../controller/admin/ProductController.php";
+require_once "../controller/admin/AuthAdminController.php";
+require_once "../controller/admin/CategoryAdminController.php";
+require_once "../controller/admin/ProductAdminController.php";
+require_once "../controller/admin/OrderAdminController.php";
 require_once "../controller/client/UserController.php";
 require_once "../controller/client/HomeController.php";
 require_once "../controller/client/CartController.php";
 require_once "../controller/client/OrderController.php";
+require_once "../controller/client/ProductController.php";
 $action = isset($_GET['act']) ? $_GET['act'] : 'index';
 $userController = new UserController();
-$authController = new AuthController();
-$category = new CategoryController();
-$product = new ProductController();
+$authController = new AuthAdminController();
+$category = new CategoryAdminController();
+$product = new ProductAdminController();
 $home = new HomeController();
 $cart = new CartController();
 $order = new OrderController();
+$orderAdmin = new OrderAdminController();
+$productClinet = new ProductController();
 // $adminRoutes = ['dashboard', 'logout_admin'];
 // if (in_array($action, $adminRoutes) && !$authController->isAdmin()) {
 //     header("Location: index.php?act=admin"); // Chuyển hướng đến trang đăng nhập admin nếu chưa đăng nhập
@@ -60,9 +64,7 @@ switch ($action) {
     case 'buyNow':
         $detailCheckout = $cart->getDetailProduct();
         $getCheckout = $cart->getCart();
-        // echo "<pre>";
-        // print_r($detailCheckout);
-        // echo "</pre>";
+      
         include "../views/client/buyNow/buyNow.php";
         break;
     case 'checkout':
@@ -72,9 +74,20 @@ switch ($action) {
         $order->Orders();
         break;
     case 'shop':
-        $home->shop();
+        $data = $home->shop();
+        $getProductByCate = $home->filterCateById();
+        include "../views/client/shop/shop.php";
         break;
-
+    case 'vnpayReturn':
+        $order->vnpayReturn();
+        break;
+    // case "search/{id}":
+    //     $searchProduct = $productClinet->search();
+    //     include "../views/client/shop/shop.php";
+    //     break;
+        // case 'momoReturn':
+        //     $order->momoReturn();
+        //     break;
 
 
         //    admin    =============================================================================================
@@ -148,5 +161,21 @@ switch ($action) {
     case "delete_product":
         $authController->middleware();
         $product->deleteProductAll();
+        break;
+    case "deleteGallery":
+        $product->deleteGallery();
+        break;
+    case "orders":
+        $orderAdmin->index();
+        break;
+
+    case "order_detail":
+        $orderAdmin->detail();
+        break;
+    case "update_order":
+        $orderAdmin->updateOrders();
+        break;
+    case "order_delete":
+        $orderAdmin->removeOrder();
         break;
 }
