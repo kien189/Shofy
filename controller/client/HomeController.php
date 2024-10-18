@@ -2,12 +2,14 @@
 require_once "../model/Product.php";
 require_once "../model/Category.php";
 require_once "../includes/CartProvider.php";
+
 class HomeController
 {
     protected $productModel;
     protected $categoryModel;
 
     protected $cartModel;
+
 
     public function __construct()
     {
@@ -18,9 +20,7 @@ class HomeController
 
     public function index()
     {
-        // echo '<pre>';
-        // print_r($products);
-        // echo '</pre>';
+
         //Lấy instace của cartProvider
         // $cartProvider = CartProvider::getInstance();
         // $cartProvider->updateCarts();
@@ -33,7 +33,6 @@ class HomeController
         $categories = $this->categoryModel->getAllCategory();
         shuffle($products);
         shuffle($categories);
-
         // Truyền biến $carts vào header
         // require_once "../views/client/layout/header.php";
 
@@ -82,7 +81,7 @@ class HomeController
         $categories = $this->categoryModel->getAllCategory();
         $countCate = $this->CountCate($categories);
         $searchProduct = $this->search();
-       
+
         // echo '<pre>';
         // print_r($searchProduct);
         // echo '<pre>';
@@ -108,15 +107,18 @@ class HomeController
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchProduct'])) {
             $_SESSION['keyword'] = $_POST['keyword'];
             $searchProduct = $this->productModel->searchProduct($_POST['keyword']);
-            $keyword =  str_replace(' ', '-', $_POST['keyword']);
-            if($searchProduct){
+            $keyword = str_replace(' ', '-', $_POST['keyword']);
+            if ($searchProduct) {
                 $_SESSION['success'] = 'Danh sách sản phẩm với keyword' . ' ' . $_POST['keyword'];
-            }else{
+            } else {
                 $_SESSION['error'] = 'Không tìm thấy sản phẩm với keyword' . ' ' . $_POST['keyword'];
+               header("Location:".$_SERVER['HTTP_REFERER']);
+               exit();
             }
             return $searchProduct;
         }
     }
+
     public function filterCateById()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['category_id'])) {

@@ -9,6 +9,8 @@ require_once "../controller/client/HomeController.php";
 require_once "../controller/client/CartController.php";
 require_once "../controller/client/OrderController.php";
 require_once "../controller/client/ProductController.php";
+require_once "../controller/client/FavoriteController.php";
+require_once "../controller/client/ProfileController.php";
 $action = isset($_GET['act']) ? $_GET['act'] : 'index';
 $userController = new UserController();
 $authController = new AuthAdminController();
@@ -19,6 +21,8 @@ $cart = new CartController();
 $order = new OrderController();
 $orderAdmin = new OrderAdminController();
 $productClinet = new ProductController();
+$favorite = new FavoriteController();
+$profile = new ProfileController();
 // $adminRoutes = ['dashboard', 'logout_admin'];
 // if (in_array($action, $adminRoutes) && !$authController->isAdmin()) {
 //     header("Location: index.php?act=admin"); // Chuyển hướng đến trang đăng nhập admin nếu chưa đăng nhập
@@ -46,6 +50,12 @@ switch ($action) {
     case 'reset_password':
         include "../views/client/reset_password.php";
         break;
+    case 'profile':
+        $profile->index();
+        break;
+    case 'updateProfile';
+        $profile->updateProfile();
+        break;
     case "product_detail":
         $home->productDetails();
         break;
@@ -64,7 +74,7 @@ switch ($action) {
     case 'buyNow':
         $detailCheckout = $cart->getDetailProduct();
         $getCheckout = $cart->getCart();
-      
+
         include "../views/client/buyNow/buyNow.php";
         break;
     case 'checkout':
@@ -81,16 +91,25 @@ switch ($action) {
     case 'vnpayReturn':
         $order->vnpayReturn();
         break;
+    case 'favorite':
+        $favorite->index();
+        break;
+    case 'addFavorite':
+        $favorite->addWishlist();
+        break;
+    case 'removeFavorite':
+        $favorite->removeFavorite();
+        break;
     // case "search/{id}":
     //     $searchProduct = $productClinet->search();
     //     include "../views/client/shop/shop.php";
     //     break;
-        // case 'momoReturn':
-        //     $order->momoReturn();
-        //     break;
+    // case 'momoReturn':
+    //     $order->momoReturn();
+    //     break;
 
 
-        //    admin    =============================================================================================
+    //    admin    =============================================================================================
     case 'admin':
         $authController->login();
         include "../views/admin/auth/login.php";
