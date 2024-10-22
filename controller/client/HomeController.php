@@ -1,7 +1,7 @@
 <?php
 require_once "../model/Product.php";
 require_once "../model/Category.php";
-require_once "../includes/CartProvider.php";
+require_once "../model/Comment.php";
 
 class HomeController
 {
@@ -9,34 +9,22 @@ class HomeController
     protected $categoryModel;
 
     protected $cartModel;
-
+    protected $comment;
 
     public function __construct()
     {
         $this->productModel = new Product();
         $this->categoryModel = new Category();
         $this->cartModel = new Cart();
+        $this->comment = new Comment();
     }
 
     public function index()
     {
-
-        //Lấy instace của cartProvider
-        // $cartProvider = CartProvider::getInstance();
-        // $cartProvider->updateCarts();
-        // $cartItems = $cartProvider->getCartItems();
-        // $carts = $this->cartModel->getAllCarts();
-        // echo '<pre>';
-        // print_r($carts);
-        // echo '</pre>';
         $products = $this->productModel->getAllProduct();
         $categories = $this->categoryModel->getAllCategory();
         shuffle($products);
         shuffle($categories);
-        // Truyền biến $carts vào header
-        // require_once "../views/client/layout/header.php";
-
-        // Sau đó load trang index
         require_once "../views/client/index.php";
     }
 
@@ -56,6 +44,8 @@ class HomeController
         $variants = $productDetail['variants'] ?? [];
 
         // Lấy tất cả kích thước và loại bỏ trùng lặp
+        $comment = $this->comment->getComentById($productDetail['product_id']);
+        $custormRatings = $this->custormRating($comment);
         $sizes = array_column($variants, 'size');
         $uniqueSizes = array_unique($sizes);
 
@@ -68,7 +58,7 @@ class HomeController
         $uniqueColors = array_unique($uniqueColors, SORT_REGULAR);
 
         // echo "<pre>";
-        // print_r($productDetail);
+        // print_r($custormRatings);
         // echo "</pre>";
 
         require_once "../views/client/product/detail.php";
@@ -112,8 +102,8 @@ class HomeController
                 $_SESSION['success'] = 'Danh sách sản phẩm với keyword' . ' ' . $_POST['keyword'];
             } else {
                 $_SESSION['error'] = 'Không tìm thấy sản phẩm với keyword' . ' ' . $_POST['keyword'];
-               header("Location:".$_SERVER['HTTP_REFERER']);
-               exit();
+                header("Location:" . $_SERVER['HTTP_REFERER']);
+                exit();
             }
             return $searchProduct;
         }
@@ -124,6 +114,38 @@ class HomeController
         if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['category_id'])) {
             $getProductByCate = $this->categoryModel->getProductByCateId();
             return $getProductByCate ?? null;
+        }
+    }
+
+
+    public function custormRating($comment)
+    {
+        $totalRating = 0;
+        $ratingCount = count($comment);
+        if ($ratingCount > 0) {
+            for ($i = 0; $i < $ratingCount; $i++) {
+                $totalRating += $comment[$i]['rating'];
+            }
+            $totalRating = $totalRating / $ratingCount;
+
+            $ratingDistribution = array_fill(1, 5, 0); // Tạo mảng với 5 sao
+            foreach ($comment as $come) {
+                $ratingDistribution[$come['rating']]++;
+            }
+
+            // Tính tỷ lệ phần trăm cho mỗi sao
+            $ratingPercentages = [];
+            foreach ($ratingDistribution as $stars => $count) {
+                $ratingPercentages[$stars] = $ratingCount > 0 ? ($count / $ratingCount) * 100 : 0;
+            }
+
+            return $data = [
+                'totalRating' => $totalRating ?? 0,
+                'ratingDistribution' => $ratingDistribution,
+                'ratingPercentages' => $ratingPercentages
+            ];
+        } else {
+            return 0;
         }
     }
 }

@@ -4,6 +4,7 @@ require_once "../controller/admin/AuthAdminController.php";
 require_once "../controller/admin/CategoryAdminController.php";
 require_once "../controller/admin/ProductAdminController.php";
 require_once "../controller/admin/OrderAdminController.php";
+require_once "../controller/admin/CouponAdminController.php";
 require_once "../controller/client/UserController.php";
 require_once "../controller/client/HomeController.php";
 require_once "../controller/client/CartController.php";
@@ -23,6 +24,7 @@ $orderAdmin = new OrderAdminController();
 $productClinet = new ProductController();
 $favorite = new FavoriteController();
 $profile = new ProfileController();
+$couponAdmin = new CouponAdminController();
 // $adminRoutes = ['dashboard', 'logout_admin'];
 // if (in_array($action, $adminRoutes) && !$authController->isAdmin()) {
 //     header("Location: index.php?act=admin"); // Chuyển hướng đến trang đăng nhập admin nếu chưa đăng nhập
@@ -100,16 +102,22 @@ switch ($action) {
     case 'removeFavorite':
         $favorite->removeFavorite();
         break;
-    // case "search/{id}":
-    //     $searchProduct = $productClinet->search();
-    //     include "../views/client/shop/shop.php";
+    case 'review':
+        $productClinet->review();
+        break;
+    // case "applyCoupon":
+    //     $cart->apCoupon();
     //     break;
-    // case 'momoReturn':
-    //     $order->momoReturn();
-    //     break;
+        // case "search/{id}":
+        //     $searchProduct = $productClinet->search();
+        //     include "../views/client/shop/shop.php";
+        //     break;
+        // case 'momoReturn':
+        //     $order->momoReturn();
+        //     break;
 
 
-    //    admin    =============================================================================================
+        //    admin    =============================================================================================
     case 'admin':
         $authController->login();
         include "../views/admin/auth/login.php";
@@ -171,30 +179,62 @@ switch ($action) {
         break;
     case "update_product":
         $authController->middleware();
+        $authController->middleware();
         $product->updateProducts();
         break;
     case "delete_variant":
+        $authController->middleware();
         $product->deleteVariantsId();
         break;
 
     case "delete_product":
         $authController->middleware();
+        $authController->middleware();
         $product->deleteProductAll();
         break;
     case "deleteGallery":
+        $authController->middleware();
         $product->deleteGallery();
         break;
     case "orders":
+        $authController->middleware();
         $orderAdmin->index();
         break;
-
     case "order_detail":
+        $authController->middleware();
         $orderAdmin->detail();
         break;
     case "update_order":
+        $authController->middleware();
         $orderAdmin->updateOrders();
         break;
     case "order_delete":
+        $authController->middleware();
         $orderAdmin->removeOrder();
+        break;
+    case "coupons":
+        $authController->middleware();
+        $couponAdmin->index();
+        break;
+    case "add_coupon":
+        $authController->middleware();
+        $couponAdmin->add();
+        include '../views/admin/coupon/add.php';
+        break;
+    case "coupon_edit":
+        $authController->middleware();
+        $couponAdmin->getCoupon();
+        break;
+    case "coupon_update":
+        $authController->middleware();
+        $couponAdmin->update();
+        break;
+    case "coupon_remove":
+        $authController->middleware();
+        $couponAdmin->delete();
+        break;
+    case "coupon_detail":
+        $authController->middleware();
+        $couponAdmin->getDetailCoupon();
         break;
 }

@@ -1,4 +1,5 @@
 <?php include "../views/admin/layout/header.php"; ?>
+<div class="wrapper">
 
 <div class="page-content">
 
@@ -423,5 +424,6 @@
           </div>
      </div>
 
+</div>
 </div>
 <?php include "../views/admin/layout/footer.php"; ?>

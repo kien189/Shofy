@@ -157,6 +157,10 @@
                                         <span>Subtotal</span>
                                         <span>$<?= $total ?>.00</span>
                                     </li>
+                                    <li class="tp-order-info-list-subtotal">
+                                        <p>Coupon: <?=$_SESSION['coupon']['name']?></p>
+                                        <p> - $<?= $_SESSION['totalCart'] ?>.00</p>
+                                    </li>
 
                                     <!-- shipping -->
                                     <li class="tp-order-info-list-shipping">
@@ -181,7 +185,7 @@
                                     <li class="tp-order-info-list-total">
                                         <span>Total</span>
                                         <input type="hidden" name="amount" value="<?= $total ?>">
-                                        <span>$<?= $total ?>.00</span>
+                                        <span>$<?= $total -$_SESSION['totalCart']?>.00</span>
                                     </li>
                                 </ul>
                             </div>

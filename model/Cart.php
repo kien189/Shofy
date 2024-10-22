@@ -123,4 +123,13 @@ class Cart
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$cartId]);
     }
+
+
+    public function getCouponByCode($coupon_code)
+    {
+        $sql = 'select * from coupon where coupon_code = ?';
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$coupon_code]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

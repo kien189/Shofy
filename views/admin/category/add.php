@@ -1,12 +1,13 @@
 <?php include "../views/admin/layout/header.php"; ?>
+<div class="wrapper">
 
-<div class="page-content">
+    <div class="page-content">
 
-    <!-- Start Container Fluid -->
-    <div class="container-xxl">
+        <!-- Start Container Fluid -->
+        <div class="container-xxl">
 
-        <div class="row">
-            <!-- <div class="col-xl-3 col-lg-4">
+            <div class="row">
+                <!-- <div class="col-xl-3 col-lg-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="bg-light text-center rounded bg-light">
@@ -42,59 +43,59 @@
                     </div>
                 </div>
             </div> -->
-            <form action="index.php?act=add_category" method="post" enctype="multipart/form-data">
-                <div class="col-xl-9 col-lg-8 ">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Add Thumbnail Photo</h4>
+                <form action="index.php?act=add_category" method="post" enctype="multipart/form-data">
+                    <div class="col-xl-9 col-lg-8 ">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Add Thumbnail Photo</h4>
+                            </div>
+                            <div class="card-body">
+                                <input type="file" name="image" id="image" class="form-control">
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <input type="file" name="image" id="image" class="form-control">
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">General Information</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <label for="meta-tag" class="form-label">Meta Tag Keyword</label>
-                                        <input type="text" id="meta-tag" class="form-control" name="name" placeholder="Enter word">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">General Information</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label for="meta-tag" class="form-label">Meta Tag Keyword</label>
+                                            <input type="text" id="meta-tag" class="form-control" name="name" placeholder="Enter word">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="mb-0">
-                                        <label for="description" class="form-label">Description</label>
-                                        <textarea class="form-control bg-light-subtle" name="description" id="description" rows="4" placeholder="Type description"></textarea>
+                                    <div class="col-lg-12">
+                                        <div class="mb-0">
+                                            <label for="description" class="form-label">Description</label>
+                                            <textarea class="form-control bg-light-subtle" name="description" id="description" rows="4" placeholder="Type description"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="p-3 bg-light mb-3 rounded">
-                        <div class="row justify-content-end g-2">
-                            <div class="col-lg-2">
-                                <button type="submit" name="add_category" class="btn btn-outline-secondary w-100">Save Change</button>
-                            </div>
-                            <div class="col-lg-2">
+                        <div class="p-3 bg-light mb-3 rounded">
+                            <div class="row justify-content-end g-2">
+                                <div class="col-lg-2">
+                                    <button type="submit" name="add_category" class="btn btn-outline-secondary w-100">Save Change</button>
+                                </div>
+                                <div class="col-lg-2">
 
-                                <a href="index.php?act=category" class="btn btn-primary w-100">Cancel</a>
+                                    <a href="index.php?act=category" class="btn btn-primary w-100">Cancel</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
+
     </div>
+    <!-- End Container Fluid -->
 
-</div>
-<!-- End Container Fluid -->
+    <!-- ========== Footer Start ========== -->
 
-<!-- ========== Footer Start ========== -->
-
-<!-- ========== Footer End ========== -->
+    <!-- ========== Footer End ========== -->
 
 </div>
 

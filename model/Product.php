@@ -14,7 +14,6 @@ class Product
         $sql = "SELECT * FROM variant_color";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        $stmt->execute();
         return $stmt->fetchAll();
     }
 
