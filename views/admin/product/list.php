@@ -1,4 +1,6 @@
 <?php include "../views/admin/layout/header.php"; ?>
+<div class="wrapper">
+
     <div class="page-content">
 
         <!-- Start Container Fluid -->
@@ -144,5 +146,6 @@
         <!-- ========== Footer Start ========== -->
 
 
+    </div>
     </div>
 <?php include "../views/admin/layout/footer.php"; ?>

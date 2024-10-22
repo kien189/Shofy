@@ -31,6 +31,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
+                                        <th class="p-3">STT</th>
                                         <th colspan="2" class="tp-cart-header-product">Product</th>
                                         <th class="tp-cart-header-price">Price</th>
                                         <th class="tp-cart-header-quantity">Quantity</th>
@@ -40,6 +41,7 @@
                                 <tbody>
                                     <?php foreach ($cartItems as $cart) : ?>
                                         <tr>
+                                            <td class="p-3"><input type="checkbox"></td>
                                             <!-- img -->
                                             <td class="tp-cart-img"><a href="index.php?product_detail&slug=<?= $cart['product_slug'] ?>"> <img src="./images/product/<?= $cart['product_image'] ?>" alt=""></a></td>
                                             <!-- title -->
@@ -83,12 +85,13 @@
                             <div class="row align-items-end">
                                 <div class="col-xl-6 col-md-8">
                                     <div class="tp-cart-coupon">
-                                        <form action="#">
+                                        <form action="index.php?act=applyCoupon" method="post">
                                             <div class="tp-cart-coupon-input-box">
                                                 <label>Coupon Code:</label>
                                                 <div class="tp-cart-coupon-input d-flex align-items-center">
-                                                    <input type="text" placeholder="Enter Coupon Code">
-                                                    <button type="submit">Apply</button>
+                                                    <input type="hidden" name="total" value="<?= $total ?>">
+                                                    <input type="text" name="coupon_code" placeholder="Enter Coupon Code">
+                                                    <button type="submit" name="applyCoupon">Apply</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -108,6 +111,10 @@
                     <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between">
                         <span class="tp-cart-checkout-top-title">Subtotal</span>
                         <span class="tp-cart-checkout-top-price">$<?= $total ?>.00</span>
+                    </div>
+                    <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between">
+                        <p class="">Coupon : <?=$_SESSION['coupon']['name']?></p>
+                        <p class="tp-cart-checkout-top-price">- $<?= $_SESSION['totalCart'] ?>.00</p>
                     </div>
                     <div class="tp-cart-checkout-shipping">
                         <h4 class="tp-cart-checkout-shipping-title">Shipping</h4>
@@ -129,7 +136,7 @@
                     </div>
                     <div class="tp-cart-checkout-total d-flex align-items-center justify-content-between">
                         <span>Total</span>
-                        <span>$<?= $total ?>.00</span>
+                        <span>$<?= $total - $_SESSION['totalCart']?>.00</span>
                     </div>
                     <div class="tp-cart-checkout-proceed">
                         <a href="index.php?act=checkout" class="tp-cart-checkout-btn w-100">Proceed to Checkout</a>

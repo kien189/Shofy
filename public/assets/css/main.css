@@ -17755,10 +17755,34 @@ product all slider
   font-size: 14px;
   margin-right: 8px;
 }
-.tp-product-details-review-form-rating-icon span {
-  font-size: 12px;
-  color: #FFB21D;
+
+.tp-product-details-review-form-rating-icon {
+  display: inline-flex;
+  flex-direction: row-reverse; /* Hiển thị từ phải sang trái */
 }
+
+.tp-product-details-review-form-rating-icon input {
+  display: none; /* Ẩn input radio */
+}
+
+/* Ngôi sao mặc định có màu xám */
+.tp-product-details-review-form-rating-icon label i {
+  font-size: 12px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+/* Khi hover vào ngôi sao hoặc nhãn (label) */
+.tp-product-details-review-form-rating-icon label:hover i,
+.tp-product-details-review-form-rating-icon label:hover ~ label i {
+  color: #FFB21D; /* Màu vàng khi hover */
+}
+
+/* Khi input radio được chọn (ngôi sao được chọn) */
+.tp-product-details-review-form-rating-icon input:checked ~ label i {
+  color: #FFB21D; /* Màu vàng khi đã chọn */
+}
+
 .tp-product-details-review-input-wrapper {
   margin-bottom: 11px;
 }

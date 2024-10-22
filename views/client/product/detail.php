@@ -214,7 +214,7 @@
                                     <div class="nav nav-tabs justify-content-center p-relative tp-product-tab" id="navPresentationTab" role="tablist">
                                         <button class="nav-link" id="nav-description-tab" data-bs-toggle="tab" data-bs-target="#nav-description" type="button" role="tab" aria-controls="nav-description" aria-selected="true">Description</button>
                                         <button class="nav-link active" id="nav-addInfo-tab" data-bs-toggle="tab" data-bs-target="#nav-addInfo" type="button" role="tab" aria-controls="nav-addInfo" aria-selected="false">Additional information</button>
-                                        <button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="false">Reviews (2)</button>
+                                        <button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="false">Reviews (<?= count($comment) ?>)</button>
 
                                         <span id="productTabMarker" class="tp-product-details-tab-line"></span>
                                     </div>
@@ -355,122 +355,120 @@
                                                             <h3 class="tp-product-details-review-number-title">Customer reviews</h3>
                                                             <div class="tp-product-details-review-summery d-flex align-items-center">
                                                                 <div class="tp-product-details-review-summery-value">
-                                                                    <span>4.5</span>
+                                                                    <span><?= $custormRatings['totalRating'] ?? 0 ?></span>
                                                                 </div>
                                                                 <div class="tp-product-details-review-summery-rating d-flex align-items-center">
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <p>(36 Reviews)</p>
+                                                                    <?php for ($i = 1; $i <= 5; $i++) : ?>
+                                                                        <span>
+                                                                            <i class="fa-solid fa-star <?= ($i <= $custormRatings['totalRating']) ? 'text-warning' : 'text-muted' ?>"></i>
+                                                                        </span>
+                                                                    <?php endfor; ?>
+                                                                    <p>(<?= count($comment) ?>)</p>
                                                                 </div>
                                                             </div>
                                                             <div class="tp-product-details-review-rating-list">
-                                                                <!-- single item -->
-                                                                <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                                    <span>5 Start</span>
-                                                                    <div class="tp-product-details-review-rating-bar">
-                                                                        <span class="tp-product-details-review-rating-bar-inner" data-width="82%"></span>
-                                                                    </div>
-                                                                    <div class="tp-product-details-review-rating-percent">
-                                                                        <span>82%</span>
-                                                                    </div>
-                                                                </div> <!-- end single item -->
+                                                                <?php if (count($comment) > 0) : ?>
+                                                                    <?php foreach ($custormRatings['ratingPercentages'] as $start => $count) : ?>
+                                                                        <!-- single item -->
+                                                                        <div class="tp-product-details-review-rating-item d-flex align-items-center">
+                                                                            <span><?= $start ?> Start</span>
+                                                                            <div class="tp-product-details-review-rating-bar">
+                                                                                <span class="tp-product-details-review-rating-bar-inner" data-width="<?= $count ?>"></span>
+                                                                            </div>
+                                                                            <div class="tp-product-details-review-rating-percent">
+                                                                                <span><?= number_format($count,) ?>%</span>
+                                                                            </div>
+                                                                        </div> <!-- end single item -->
+                                                                    <?php endforeach; ?>
+                                                                <?php else: ?>
+                                                                    <div class="tp-product-details-review-rating-item d-flex align-items-center">
+                                                                        <div class="tp-product-details-review-rating-list">
+                                                                            <!-- single item -->
+                                                                            <div class="tp-product-details-review-rating-item d-flex align-items-center">
+                                                                                <span>5 Start</span>
+                                                                                <div class="tp-product-details-review-rating-bar">
+                                                                                    <span class="tp-product-details-review-rating-bar-inner" data-width="0%"></span>
+                                                                                </div>
+                                                                                <div class="tp-product-details-review-rating-percent">
+                                                                                    <span>0%</span>
+                                                                                </div>
+                                                                            </div> <!-- end single item -->
 
-                                                                <!-- single item -->
-                                                                <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                                    <span>4 Start</span>
-                                                                    <div class="tp-product-details-review-rating-bar">
-                                                                        <span class="tp-product-details-review-rating-bar-inner" data-width="30%"></span>
-                                                                    </div>
-                                                                    <div class="tp-product-details-review-rating-percent">
-                                                                        <span>30%</span>
-                                                                    </div>
-                                                                </div> <!-- end single item -->
+                                                                            <!-- single item -->
+                                                                            <div class="tp-product-details-review-rating-item d-flex align-items-center">
+                                                                                <span>4 Start</span>
+                                                                                <div class="tp-product-details-review-rating-bar">
+                                                                                    <span class="tp-product-details-review-rating-bar-inner" data-width="0%"></span>
+                                                                                </div>
+                                                                                <div class="tp-product-details-review-rating-percent">
+                                                                                    <span>0%</span>
+                                                                                </div>
+                                                                            </div> <!-- end single item -->
 
-                                                                <!-- single item -->
-                                                                <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                                    <span>3 Start</span>
-                                                                    <div class="tp-product-details-review-rating-bar">
-                                                                        <span class="tp-product-details-review-rating-bar-inner" data-width="15%"></span>
-                                                                    </div>
-                                                                    <div class="tp-product-details-review-rating-percent">
-                                                                        <span>15%</span>
-                                                                    </div>
-                                                                </div> <!-- end single item -->
+                                                                            <!-- single item -->
+                                                                            <div class="tp-product-details-review-rating-item d-flex align-items-center">
+                                                                                <span>3 Start</span>
+                                                                                <div class="tp-product-details-review-rating-bar">
+                                                                                    <span class="tp-product-details-review-rating-bar-inner" data-width="0%"></span>
+                                                                                </div>
+                                                                                <div class="tp-product-details-review-rating-percent">
+                                                                                    <span>0%</span>
+                                                                                </div>
+                                                                            </div> <!-- end single item -->
 
-                                                                <!-- single item -->
-                                                                <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                                    <span>2 Start</span>
-                                                                    <div class="tp-product-details-review-rating-bar">
-                                                                        <span class="tp-product-details-review-rating-bar-inner" data-width="6%"></span>
-                                                                    </div>
-                                                                    <div class="tp-product-details-review-rating-percent">
-                                                                        <span>6%</span>
-                                                                    </div>
-                                                                </div> <!-- end single item -->
+                                                                            <!-- single item -->
+                                                                            <div class="tp-product-details-review-rating-item d-flex align-items-center">
+                                                                                <span>2 Start</span>
+                                                                                <div class="tp-product-details-review-rating-bar">
+                                                                                    <span class="tp-product-details-review-rating-bar-inner" data-width="0%"></span>
+                                                                                </div>
+                                                                                <div class="tp-product-details-review-rating-percent">
+                                                                                    <span>0%</span>
+                                                                                </div>
+                                                                            </div> <!-- end single item -->
 
-                                                                <!-- single item -->
-                                                                <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                                    <span>1 Start</span>
-                                                                    <div class="tp-product-details-review-rating-bar">
-                                                                        <span class="tp-product-details-review-rating-bar-inner" data-width="10%"></span>
+                                                                            <!-- single item -->
+                                                                            <div class="tp-product-details-review-rating-item d-flex align-items-center">
+                                                                                <span>1 Start</span>
+                                                                                <div class="tp-product-details-review-rating-bar">
+                                                                                    <span class="tp-product-details-review-rating-bar-inner" data-width="0%"></span>
+                                                                                </div>
+                                                                                <div class="tp-product-details-review-rating-percent">
+                                                                                    <span>0%</span>
+                                                                                </div>
+                                                                            </div> <!-- end single item -->
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="tp-product-details-review-rating-percent">
-                                                                        <span>10%</span>
-                                                                    </div>
-                                                                </div> <!-- end single item -->
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
 
                                                         <!-- reviews -->
                                                         <div class="tp-product-details-review-list pr-110">
                                                             <h3 class="tp-product-details-review-title">Rating & Review</h3>
-                                                            <div class="tp-product-details-review-avater d-flex align-items-start">
-                                                                <div class="tp-product-details-review-avater-thumb">
-                                                                    <a href="#">
-                                                                        <img src="assets/img/users/user-3.jpg" alt="">
-                                                                    </a>
-                                                                </div>
-                                                                <div class="tp-product-details-review-avater-content">
-                                                                    <div class="tp-product-details-review-avater-rating d-flex align-items-center">
-                                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                            <?php foreach ($comment as $come) : ?>
+                                                                <div class="tp-product-details-review-avater d-flex align-items-start">
+                                                                    <div class="tp-product-details-review-avater-thumb">
+                                                                        <a href="#">
+                                                                            <img src="<?= !empty($_SESSION['user']['image']) ? './images/user/' . $_SESSION['user']['image'] : 'https://i.pinimg.com/1200x/bc/43/98/bc439871417621836a0eeea768d60944.jpg' ?>" alt="User Avatar">
+                                                                        </a>
                                                                     </div>
-                                                                    <h3 class="tp-product-details-review-avater-title">Eleanor Fant</h3>
-                                                                    <span class="tp-product-details-review-avater-meta">06 March, 2023 </span>
+                                                                    <div class="tp-product-details-review-avater-content">
+                                                                        <div class="tp-product-details-review-avater-rating d-flex align-items-center">
+                                                                            <?php for ($i = 0; $i < 5; $i++) : ?>
+                                                                                <span><i class="fa-solid fa-star <?= ($i < $come['rating']) ? 'text-warning' : 'text-muted' ?>"></i></span>
+                                                                            <?php endfor; ?>
+                                                                        </div>
+                                                                        <h3 class="tp-product-details-review-avater-title"><?= $_SESSION['user']['name'] ?></h3>
+                                                                        <span class="tp-product-details-review-avater-meta"><?= date('d, F, Y', strtotime($come['created_at'])) ?>
+                                                                        </span>
 
-                                                                    <div class="tp-product-details-review-avater-comment">
-                                                                        <p>Designed very similarly to the nearly double priced Galaxy tab S6, with the only removal being.</p>
+                                                                        <div class="tp-product-details-review-avater-comment">
+                                                                            <p><?= $come['content'] ?>.</p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="tp-product-details-review-avater d-flex align-items-start">
-                                                                <div class="tp-product-details-review-avater-thumb">
-                                                                    <a href="#">
-                                                                        <img src="assets/img/users/user-2.jpg" alt="">
-                                                                    </a>
-                                                                </div>
-                                                                <div class="tp-product-details-review-avater-content">
-                                                                    <div class="tp-product-details-review-avater-rating d-flex align-items-center">
-                                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                                    </div>
-                                                                    <h3 class="tp-product-details-review-avater-title">Shahnewaz Sakil</h3>
-                                                                    <span class="tp-product-details-review-avater-meta">06 March, 2023 </span>
-
-                                                                    <div class="tp-product-details-review-avater-comment">
-                                                                        <p>This review is for the Samsung Tab S6 Lite, 64gb wifi in blue. purchased this product performed.</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            <?php endforeach; ?>
                                                         </div>
                                                     </div>
                                                 </div> <!-- end col -->
@@ -478,42 +476,43 @@
                                                     <div class="tp-product-details-review-form">
                                                         <h3 class="tp-product-details-review-form-title">Review this product</h3>
                                                         <p>Your email address will not be published. Required fields are marked *</p>
-                                                        <form action="#">
+                                                        <form action="index.php?act=review" method="post">
                                                             <div class="tp-product-details-review-form-rating d-flex align-items-center">
                                                                 <p>Your Rating :</p>
-                                                                <div class="tp-product-details-review-form-rating-icon d-flex align-items-center">
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
+                                                                <div class="tp-product-details-review-form-rating-icon" required>
+                                                                    <input type="radio" id="star5" name="rating" value="5"><label for="star5" title="5 stars"><i class="fa-solid fa-star"></i></label>
+                                                                    <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars"><i class="fa-solid fa-star"></i></label>
+                                                                    <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars"><i class="fa-solid fa-star"></i></label>
+                                                                    <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars"><i class="fa-solid fa-star"></i></label>
+                                                                    <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star"><i class="fa-solid fa-star"></i></label>
                                                                 </div>
                                                             </div>
+                                                            <input type="hidden" name="product_id" value="<?= $productDetail['product_id'] ?>">
                                                             <div class="tp-product-details-review-input-wrapper">
                                                                 <div class="tp-product-details-review-input-box">
                                                                     <div class="tp-product-details-review-input">
-                                                                        <textarea id="msg" name="msg" placeholder="Write your review here..."></textarea>
+                                                                        <textarea id="msg" name="content" placeholder="Write your review here..."></textarea>
                                                                     </div>
                                                                     <div class="tp-product-details-review-input-title">
-                                                                        <label for="msg">Your Name</label>
+                                                                        <label for="msg">Content</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="tp-product-details-review-input-box">
+                                                                <!-- <div class="tp-product-details-review-input-box">
                                                                     <div class="tp-product-details-review-input">
                                                                         <input name="name" id="name" type="text" placeholder="Shahnewaz Sakil">
                                                                     </div>
                                                                     <div class="tp-product-details-review-input-title">
                                                                         <label for="name">Your Name</label>
                                                                     </div>
-                                                                </div>
-                                                                <div class="tp-product-details-review-input-box">
+                                                                </div> -->
+                                                                <!-- <div class="tp-product-details-review-input-box">
                                                                     <div class="tp-product-details-review-input">
                                                                         <input name="email" id="email" type="email" placeholder="shofy@mail.com">
                                                                     </div>
                                                                     <div class="tp-product-details-review-input-title">
                                                                         <label for="email">Your Email</label>
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
                                                             </div>
                                                             <div class="tp-product-details-review-suggetions mb-20">
                                                                 <div class="tp-product-details-review-remeber">
@@ -522,7 +521,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="tp-product-details-review-btn-wrapper">
-                                                                <button class="tp-product-details-review-btn">Submit</button>
+                                                                <button name="review" type="submit" class="tp-product-details-review-btn">Submit</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -954,7 +953,7 @@
     // Đợi DOM được tải hoàn toàn trước khi chạy code
     document.addEventListener('DOMContentLoaded', function() {
         let selectedColor = null; // Biến để lưu màu đã chọn
-        let selectedSize = null;  // Biến để lưu kích thước đã chọn
+        let selectedSize = null; // Biến để lưu kích thước đã chọn
 
         // Chuyển dữ liệu từ PHP sang JavaScript - các biến thể sản phẩm
         const variants = <?= json_encode($variants) ?>; // Lấy danh sách tất cả biến thể sản phẩm từ PHP
@@ -962,7 +961,7 @@
 
         // Lấy danh sách tất cả các button màu và kích thước từ giao diện
         const colorButtons = document.querySelectorAll('.variants-color'); // Các nút chọn màu
-        const sizeButtons = document.querySelectorAll('.variants-size');   // Các nút chọn kích thước
+        const sizeButtons = document.querySelectorAll('.variants-size'); // Các nút chọn kích thước
         console.log(colorButtons, sizeButtons); // Log ra để kiểm tra danh sách nút
 
         // Xử lý sự kiện khi người dùng chọn một màu
@@ -970,7 +969,7 @@
             button.addEventListener('click', function() {
                 selectedColor = this.getAttribute('data-color'); // Lấy mã màu từ thuộc tính 'data-color'
                 updateAvailableSizes(); // Cập nhật lại danh sách kích thước khả dụng dựa trên màu đã chọn
-                checkAndUpdatePrice();   // Kiểm tra và cập nhật giá sản phẩm nếu có biến thể phù hợp
+                checkAndUpdatePrice(); // Kiểm tra và cập nhật giá sản phẩm nếu có biến thể phù hợp
             });
         });
 
@@ -979,7 +978,7 @@
             button.addEventListener('click', function() {
                 selectedSize = this.getAttribute('data-size'); // Lấy kích thước từ thuộc tính 'data-size'
                 updateAvailableColors(); // Cập nhật lại danh sách màu khả dụng dựa trên kích thước đã chọn
-                checkAndUpdatePrice();   // Kiểm tra và cập nhật giá sản phẩm nếu có biến thể phù hợp
+                checkAndUpdatePrice(); // Kiểm tra và cập nhật giá sản phẩm nếu có biến thể phù hợp
             });
         });
 
@@ -1039,5 +1038,6 @@
         }
     });
 </script>
+
 
 <?php include "../views/client/layout/footer.php"; ?>

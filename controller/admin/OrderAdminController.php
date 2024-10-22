@@ -5,6 +5,9 @@ class OrderAdminController extends Order
     public function index()
     {
         $getOrders = $this->getAllOrder();
+        // echo '<pre>';
+        // print_r($getOrders);
+        // echo '<pre>';
         require_once "../views/admin/orders/orderList.php";
     }
 
@@ -34,7 +37,7 @@ class OrderAdminController extends Order
 
     public function removeOrder()
     {
-        if ($_SERVER['REQUEST_METHOD'] == "GET" ) {
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $deleteOrder = $this->deleteOrder();
             $_SESSION['success'] = "Xoá đơn hàng thành công";
             header("location:" . $_SERVER['HTTP_REFERER']);

@@ -1,8 +1,14 @@
 <?php
 require_once "../model/Cart.php";
+require_once "../model/Coupon.php";
 require_once "../includes/CartProvider.php";
 class CartController extends Cart
 {
+    // protected $coupon;
+    // public function __construct()
+    // {
+    //     $this->coupon = new Coupon();
+    // }
     public function AddToCarts()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['addToCart'])) {
@@ -90,6 +96,11 @@ class CartController extends Cart
                 $_SESSION['success'] = "Cập nhật giỏ hàng thành công";
                 exit();
             }
+        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['applyCoupon'])) {
+            $this->addCoupon();
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            $_SESSION['success'] = "Áp dụng mã giảm giá thành công";
+            exit();
         }
     }
 
@@ -101,5 +112,35 @@ class CartController extends Cart
             $_SESSION['success'] = "Xóa sản phẩm thành công";
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
+    }
+
+    public function addCoupon()
+    {
+        $coupon = $this->getCouponByCode($_POST['coupon_code']);
+        if (!$coupon) {
+            $_SESSION['error'] = 'Mã giảm giá không tồn tại';
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+            exit();
+        }
+        if (isset($_SESSION['coupon'])) {
+            $_SESSION['error'] = 'Chỉ được sử dụng coupon 1 lần ';
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+            exit();
+        } else {
+            $_SESSION['coupon'] = $coupon;
+
+            $totalCart = $this->handleCoupon($coupon, $_POST['total']);
+            $_SESSION['totalCart'] = $totalCart;
+        }
+    }
+    public function handleCoupon($coupon, $total)
+    {
+
+        if ($coupon['type'] == 'Percentage') {
+            $totalCart = ($total * $coupon['coupon_value'] / 100);
+        } elseif ($coupon['type'] == 'Fixed Amount') {
+            $totalCart = $coupon['coupon_value'];
+        }
+        return $totalCart;
     }
 }

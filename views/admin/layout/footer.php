@@ -13,6 +13,13 @@
 <script src="assets_admin/js/pages/dashboard.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 
+<!-- Vendor Javascript (Require in all Page) -->
+<script src="assets_admin/js/vendor.js"></script>
+
+<!-- App Javascript (Require in all Page) -->
+<script src="assets_admin/js/app.js"></script>
+<script src="assets_admin/js/pages/coupons-add.js"></script>
+
 <script>
     ClassicEditor
         .create(document.querySelector('.editor1'))
@@ -42,7 +49,7 @@
         slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
         slug = slug.replace(/đ/gi, 'd');
         //Xóa các ký tự đặt biệt
-        slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi,'-');
+        slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '-');
         //Đổi khoảng trắng thành ký tự gạch ngang
         slug = slug.replace(/ /gi, "-");
         //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang

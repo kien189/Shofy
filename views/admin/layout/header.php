@@ -57,11 +57,11 @@
         echo "<script type='text/javascript'>
         toastr.success('{$_SESSION['success']}');
     </script>";
-    
-    // Xóa thông báo sau khi hiển thị để tránh lặp lại
-    unset($_SESSION['success']);
+
+        // Xóa thông báo sau khi hiển thị để tránh lặp lại
+        unset($_SESSION['success']);
     }
-    
+
     ?>
 
     <!-- START Wrapper -->
@@ -599,7 +599,24 @@
                             </ul>
                         </div>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link menu-arrow" href="#sidebarCoupons" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCoupons">
+                            <span class="nav-icon">
+                                <iconify-icon icon="solar:leaf-bold-duotone"></iconify-icon>
+                            </span>
+                            <span class="nav-text"> Coupons </span>
+                        </a>
+                        <div class="collapse" id="sidebarCoupons">
+                            <ul class="nav sub-navbar-nav">
+                                <li class="sub-nav-item">
+                                    <a class="sub-nav-link" href="index.php?act=coupons">List</a>
+                                </li>
+                                <li class="sub-nav-item">
+                                    <a class="sub-nav-link" href="index.php?act=add_coupon">Add</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link menu-arrow" href="#sidebarPurchases" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarPurchases">
                             <span class="nav-icon">
