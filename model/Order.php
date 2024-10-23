@@ -60,17 +60,9 @@ class Order
     od.status AS status,
     od.created_at AS created_at,
     od.updated_at AS updated_at,
-    MAX(o.id) AS order_id, -- Sử dụng MAX hoặc MIN
-    GROUP_CONCAT(p.name) AS order_product_name,
-    GROUP_CONCAT(p.image) AS order_product_image,
-    SUM(pv.price) AS order_product_price,
-    SUM(o.quantity) AS quantity,
-    MAX(c.name) AS category_name -- Sử dụng MAX hoặc MIN
+    SUM(o.quantity) AS quantity
     FROM order_detail od
     LEFT JOIN `oder` o ON od.id = o.order_id
-    LEFT JOIN product p ON o.product_id = p.id
-    LEFT JOIN category c ON p.category_id = c.id
-    LEFT JOIN product_variant pv ON o.variant_id = pv.id
     GROUP BY od.id;
 ";
 
@@ -111,60 +103,75 @@ class Order
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // public function getOrderProduct()
-    // {
-    //     $sql = "SELECT
-    //     o.id as order_id,
-    //     p.name as order_product_name,
-    //     p.image as order_product_image,
-    //     pv.price as order_product_price,
-    //     vs.size as order_variant_size_name,
-    //     vc.color_name as order_variant_color_name,
-    //     o.quantity as quantity
-    //     FROM `oder` o
-    //     LEFT JOIN product p ON o.product_id = p.id
-    //     LEFT JOIN product_variant pv ON pv.product_id = p.id
-    //     LEFT JOIN variant_color vc ON pv.variant_color_id = vc.id
-    //     LEFT JOIN variant_size vs ON pv.variant_size_id = vs.id
-    //     WHERE o.order_id = ?
-    //     ";
-    //     $stmt = $this->db->prepare($sql);
-    //     $stmt->execute([$_GET['id']]); // Giả sử $_GET['id'] là order_id
-    //     return $stmt->fetchAll(PDO::FETCH_ASSOC); // Sử dụng fetchAll để lấy nhiều dòng
-    // }
-
     public function getOrderProduct()
-{
-    $sql = "SELECT
-        o.id as order_id,
-        p.name as order_product_name,
-        p.image as order_product_image,
-        SUM(pv.price) as order_product_price,  -- Tổng giá cho sản phẩm
-        GROUP_CONCAT(DISTINCT vs.size) as order_variant_size_name,  -- Kết hợp kích thước
-        GROUP_CONCAT(DISTINCT vc.color_name) as order_variant_color_name,  -- Kết hợp màu sắc
-        SUM(o.quantity) as quantity  -- Tổng số lượng sản phẩm
-    FROM `oder` o
-    LEFT JOIN product p ON o.product_id = p.id
-    LEFT JOIN product_variant pv ON pv.product_id = p.id
-    LEFT JOIN variant_color vc ON pv.variant_color_id = vc.id
-    LEFT JOIN variant_size vs ON pv.variant_size_id = vs.id
-    WHERE o.order_id = ?
-    GROUP BY o.id, p.name, p.image;  -- Nhóm theo order_id và các cột không tổng hợp khác
-    ";
+    {
+        $sql = "SELECT
+            o.id as order_id,
+            p.name as order_product_name,
+            p.image as order_product_image,
+            pv.sale_price as order_product_price,
+            vs.size as order_variant_size_name,
+            vc.color_name as order_variant_color_name,
+            o.quantity as quantity
+        FROM `oder` o
+        LEFT JOIN product p ON o.product_id = p.id
+        LEFT JOIN product_variant pv ON o.variant_id = pv.id
+        LEFT JOIN variant_color vc ON pv.variant_color_id = vc.id
+        LEFT JOIN variant_size vs ON pv.variant_size_id = vs.id
+        WHERE o.order_id = ?";
+    
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$_GET['id']]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 
-    $stmt = $this->db->prepare($sql);
-    $stmt->execute([$_GET['id']]); // Giả sử $_GET['id'] là order_id
-    return $stmt->fetchAll(PDO::FETCH_ASSOC); // Sử dụng fetchAll để lấy nhiều dòng
-}
+
+   
 
 
+    // public function updateOrder($id, $status)
+    // {
+    //     $sql = "UPDATE `order_detail` SET status = ? WHERE id = ?";
+    //     $stmt = $this->db->prepare($sql);
+    //     $stmt->execute([$status, $id]); // Sử dụng id từ tham số
+    //     return $stmt; // Trả về true nếu có bản ghi bị cập nhật
+    // }
     public function updateOrder($id, $status)
     {
+        // Lấy trạng thái hiện tại của đơn hàng
+        $sql = "SELECT status FROM `order_detail` WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        $currentStatus = $stmt->fetchColumn();
+
+        // Các trạng thái hợp lệ mà đơn hàng có thể chuyển tiếp
+        $allowedStatusUpdates = [
+            'Pending' => ['Confirmed', 'Shipped',],
+            'Confirmed' => ['Shipped', 'Canceled'],
+            'Shipped' => ['Delivered'],
+            'Delivered' => [] // 'delivered' không thể cập nhật
+        ];
+
+        // Sử dụng hàm PHP để kiểm tra trạng thái mới có hợp lệ không
+        // Kiểm tra xem trạng thái hiện tại có tồn tại trong mảng $allowedStatusUpdates không.
+        // Nếu không tồn tại, nghĩa là trạng thái hiện tại không thể cập nhật lên bất kỳ trạng thái nào khác.
+        if (
+            !isset($allowedStatusUpdates[$currentStatus])
+            // Kiểm tra xem trạng thái mới ($status) có nằm trong danh sách trạng thái hợp lệ tiếp theo của trạng thái hiện tại không.
+            || !in_array($status, $allowedStatusUpdates[$currentStatus])
+        ) {
+            // Nếu trạng thái hiện tại không tồn tại trong mảng hoặc trạng thái mới không hợp lệ, trả về false.
+            return false; // Trạng thái không hợp lệ
+        }
+
+
+        // Thực hiện cập nhật trạng thái nếu hợp lệ
         $sql = "UPDATE `order_detail` SET status = ? WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$status, $id]); // Sử dụng id từ tham số
-        return $stmt; // Trả về true nếu có bản ghi bị cập nhật
+        return $stmt->execute([$status, $id]); // Trả về true nếu cập nhật thành công
     }
+
 
 
     public function deleteOrder()
@@ -173,5 +180,13 @@ class Order
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$_GET['id']]);
         return $stmt;
+    }
+
+    public function getOrderByUser()
+    {
+        $sql = 'select * from order_detail where user_id = ?';
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$_SESSION['user']['id']]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

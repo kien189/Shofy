@@ -178,7 +178,7 @@
                                                             <th>Order ID</th>
                                                             <th>Created at</th>
                                                             <th>Customer</th>
-                                                            <th>Priority</th>
+                                                            <!-- <th>Priority</th> -->
                                                             <th>Total</th>
                                                             <!-- <th>Payment Status</th> -->
                                                             <th>Items</th>
@@ -195,9 +195,9 @@
                                                                  </td>
                                                                  <td><?= date('M d, Y', strtotime($value['created_at'])) ?></td>
                                                                  <td>
-                                                                      <a href="#!" class="link-primary fw-medium">Gail C. Anderson</a>
+                                                                      <a href="#!" class="link-primary fw-medium"><?= $value['name'] ?></a>
                                                                  </td>
-                                                                 <td><?= $value['category_name'] ?></td>
+                                                                 <!-- <td><?= $value['category_name'] ?></td> -->
                                                                  <td> $<?= $value['amount'] ?>.00</td>
                                                                  <!-- <td> <span class="badge bg-light text-dark  px-2 py-1 fs-13"></span></td> -->
                                                                  <td> <?= $value['quantity'] ?></td>
@@ -205,17 +205,23 @@
                                                                  <?php if ($value['status'] == 'Pending') : ?>
                                                                       <td> <span class="badge border border-secondary text-secondary  px-2 py-1 fs-13"><?= $value['status'] ?></span></td>
                                                                  <?php elseif ($value['status'] == 'Shipped') : ?>
-                                                                      <td> <span class="badge border border-warning text-warning  px-2 py-1 fs-13">Packaging</span></td>
+                                                                      <td> <span class="badge border border-warning text-warning  px-2 py-1 fs-13">Shipped</span></td>
                                                                  <?php elseif ($value['status'] == 'Canceled') : ?>
                                                                       <td> <span class="badge border border-danger text-danger  px-2 py-1 fs-13">Canceled</span></td>
+                                                                 <?php elseif ($value['status'] == 'Delivered') : ?>
+                                                                      <td> <span class="badge border border-success text-success  px-2 py-1 fs-13">Delivered</span></td>
                                                                  <?php else : ?>
-                                                                      <td> <span class="badge border border-success text-success  px-2 py-1 fs-13">Completed</span></td>
+                                                                      <td> <span class="badge border border-success text-success  px-2 py-1 fs-13">Confirmed</span></td>
                                                                  <?php endif; ?>
                                                                  <td>
                                                                       <div class="d-flex gap-2">
                                                                            <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
                                                                            <a href="index.php?act=order_detail&id=<?= $value['order_detail_id'] ?>" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                                           <a href="index.php?act=order_delete&id=<?= $value['order_detail_id'] ?>" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                           <?php if ($value['status'] == 'Delivered') : ?>
+                                                                                <button disabled  class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></button>
+                                                                           <?php else: ?>
+                                                                                <a href="index.php?act=order_delete&id=<?= $value['order_detail_id'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xoá đơn hàng này không ?  .')" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                           <?php endif; ?>
                                                                       </div>
                                                                  </td>
                                                             </tr>

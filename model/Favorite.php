@@ -21,9 +21,10 @@ class Favorite
             p.image as product_image
         from favorite f
         left join product p on  f.product_id = p.id
+        where user_id = ? 
         ";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute();
+        $stmt->execute([$_SESSION['user']['id'] ?? null] );
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
