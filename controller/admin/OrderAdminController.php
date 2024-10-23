@@ -26,14 +26,21 @@ class OrderAdminController extends Order
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['updateOrder'])) {
 
             $updateOrder = $this->updateOrder($_POST['id'], $_POST['status']);
-            $_SESSION['success'] = "Cập nhật đơn hàng thành công";
-            header("location:" . $_SERVER['HTTP_REFERER']);
+            if ($updateOrder) {
+                $_SESSION['success'] = "Cập nhật đơn hàng thành công";
+                header("location:" . $_SERVER['HTTP_REFERER']);
+            } else {
+                $_SESSION['error'] = "Cập nhật đơn hàng thất bại . Vui lòng thử lại";
+                header("location:" . $_SERVER['HTTP_REFERER']);
+                exit;
+            }
         } else {
             $_SESSION['error'] = "Cập nhật đơn hàng thất bại";
             header("location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
     }
+
 
     public function removeOrder()
     {

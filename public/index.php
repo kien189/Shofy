@@ -53,7 +53,8 @@ switch ($action) {
         include "../views/client/reset_password.php";
         break;
     case 'profile':
-        $profile->index();
+        $orders = $order->myOrder();
+        require_once '../views/client/profile/profile.php';
         break;
     case 'updateProfile';
         $profile->updateProfile();
@@ -105,9 +106,12 @@ switch ($action) {
     case 'review':
         $productClinet->review();
         break;
-    // case "applyCoupon":
-    //     $cart->apCoupon();
-    //     break;
+    case 'track_order':
+        $order->trackOrder();
+        break;
+        // case "applyCoupon":
+        //     $cart->apCoupon();
+        //     break;
         // case "search/{id}":
         //     $searchProduct = $productClinet->search();
         //     include "../views/client/shop/shop.php";

@@ -21,7 +21,7 @@ class Comment
     {
         $sql = "select * from comment where user_id = ? and product_id =?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$_SESSION['user']['id'], $product_id]);
+        $stmt->execute([$_SESSION['user']['id'] ?? null , $product_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

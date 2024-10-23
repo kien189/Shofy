@@ -3,14 +3,14 @@ require_once "../model/Profile.php";
 
 class ProfileController extends Profile
 {
-    public function index()
-    {
-//        echo '<pre>';
-//        print_r($_SESSION['user']);
-//        echo '<pre>';
-//
-        require_once '../views/client/profile/profile.php';
-    }
+//     public function index()
+//     {
+// //        echo '<pre>';
+// //        print_r($_SESSION['user']);
+// //        echo '<pre>';
+// //
+//         require_once '../views/client/profile/profile.php';
+//     }
 
     public function updateProfile()
     {

@@ -14,7 +14,7 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 
 <!-- Vendor Javascript (Require in all Page) -->
-<script src="assets_admin/js/vendor.js"></script>
+<!-- <script src="assets_admin/js/vendor.js"></script> -->
 
 <!-- App Javascript (Require in all Page) -->
 <script src="assets_admin/js/app.js"></script>

@@ -19,7 +19,10 @@ class OrderController
         try {
             if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkout'])) {
                 $this->order();
+                unset($_SESSION['coupon']);
+                unset($_SESSION['totalCart']);
                 $_SESSION['success'] = "Đặt hàng nhiều đơn thành công!";
+                header('Location:/');
                 exit();
             } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['momo'])) {
                 $this->order();
@@ -47,15 +50,8 @@ class OrderController
                     $order = $this->orders->addOrder($_SESSION['user']['id'], $item['product_id'], $item['variant_id'], $item['cart_quantity'], $order_id);
                     $this->orders->deleteCart($item['cart_id']);
                 }
-                // header('Location: index.php');
-                // $_SESSION['success'] = "Đặt hàng nhiều đơn thành công!";
-                // exit();
             }
         }
-        // } else {
-        //     $_SESSION['error'] = "Đặt hàng thất bại!";
-        //     header('Location: ' . $_SERVER['HTTP_REFERER']);
-        // }
     }
 
     public function vnpayReturn()
@@ -73,7 +69,7 @@ class OrderController
     //         exit();
     //     }
     // }
-    
+
     public function checkout()
     {
         $cartProvider = CartProvider::getInstance();
@@ -84,5 +80,24 @@ class OrderController
         // echo '</pre>';
         $total = $cartProvider->sum($getCheckout);
         require_once "../views/client/checkout/checkout.php";
+    }
+
+    public function myOrder()
+    {
+        $orders = $this->orders->getOrderByUser();
+        // echo '<pre>';
+        // print_r($orders);
+        // echo '<pre>';
+        return $orders;
+    }
+
+    public function trackOrder()
+    {
+        $orders = $this->orders->getOrderById();
+        $orderList = $this->orders->getOrderProduct();
+        // echo '<pre>';
+        // print_r($orderList);
+        // echo '<pre>';
+        require_once '../views/client/track_order/track_order.php';
     }
 }

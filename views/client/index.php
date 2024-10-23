@@ -369,7 +369,7 @@ include "layout/header.php";
                                                         <a href="shop.html"><?= $pro['category_name'] ?></a>
                                                     </div>
                                                     <h3 class="tp-product-title">
-                                                        <a href="product-details.html">
+                                                        <a href="index.php?act=product_detail&slug=<?= $pro['product_slug'] ?>">
                                                             <?= $pro['product_name'] ?>.
                                                         </a>
                                                     </h3>
