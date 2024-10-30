@@ -16,8 +16,9 @@ class OrderAdminController extends Order
 
         $getOrderById = $this->getOrderById();
         $product = $this->getOrderProduct();
+        $coupon = $this->handleCoupon($getOrderById,$getOrderById['amount']);
         // echo '<pre>';
-        // print_r($product);
+        // print_r($coupon);
         // echo '</pre>';
         require_once "../views/admin/orders/orderDetail.php";
     }
@@ -53,5 +54,16 @@ class OrderAdminController extends Order
             header("location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
+    }
+
+    public function handleCoupon($coupon, $total)
+    {
+
+        if ($coupon['type'] == 'Percentage') {
+            $totalCart = ($total * $coupon['coupon_value'] / 100);
+        } elseif ($coupon['type'] == 'Fixed Amount') {
+            $totalCart = $coupon['coupon_value'];
+        }
+        return $totalCart;
     }
 }

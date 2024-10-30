@@ -315,19 +315,19 @@
                                                   <td class="px-0">
                                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon icon="solar:clipboard-text-broken"></iconify-icon> Sub Total : </p>
                                                   </td>
-                                                  <td class="text-end text-dark fw-medium px-0">$<?= $getOrderById['amount'] ?>.00</td>
+                                                  <td class="text-end text-dark fw-medium px-0">$<?= ($getOrderById['amount']-$coupon)+$getOrderById['shipping_price'] ?>.00</td>
                                              </tr>
                                              <tr>
                                                   <td class="px-0">
                                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon icon="solar:ticket-broken" class="align-middle"></iconify-icon> Discount : </p>
                                                   </td>
-                                                  <td class="text-end text-dark fw-medium px-0">-$60.00</td>
+                                                  <td class="text-end text-dark fw-medium px-0">-$<?=$coupon?>.00</td>
                                              </tr>
                                              <tr>
                                                   <td class="px-0">
                                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon icon="solar:kick-scooter-broken" class="align-middle"></iconify-icon> Delivery Charge : </p>
                                                   </td>
-                                                  <td class="text-end text-dark fw-medium px-0">$00.00</td>
+                                                  <td class="text-end text-dark fw-medium px-0">$<?=$getOrderById['shipping_price']?>.00</td>
                                              </tr>
                                              <!-- <tr>
                                              <td class="px-0">

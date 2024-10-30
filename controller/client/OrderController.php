@@ -1,16 +1,19 @@
 <?php
 
 require_once "../model/Order.php";
+require_once "../model/Ship.php";
 require_once "../includes/cartProvider.php";
 require_once "../controller/client/PaymentController.php";
 class OrderController
 {
     protected $paymentMethod;
     protected $orders;
+    protected $ship;
     public function __construct()
     {
         $this->orders = new Order();
         $this->paymentMethod = new PaymentController();
+        $this->ship = new Ship();
     }
 
 
@@ -42,7 +45,7 @@ class OrderController
     {
         $cartProvider = CartProvider::getInstance();
         $getCheckout = $cartProvider->getCartItems();
-        $orderDetails = $this->orders->addOrderDetail($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address'], $_SESSION['user']['id'], $_POST['amount'], $_POST['note']);
+        $orderDetails = $this->orders->addOrderDetail($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address'], $_SESSION['user']['id'], $_POST['amount'], $_POST['note'],$_POST['coupon_id'], $_POST['shipping']);
         if ($orderDetails) {
             $order_id = $this->orders->getLastInsertId();
             if (is_array($getCheckout)) {
@@ -74,9 +77,9 @@ class OrderController
     {
         $cartProvider = CartProvider::getInstance();
         $getCheckout = $cartProvider->getCartItems();
-
+        $shipping = $this->ship->getAllShipping();
         // echo '<pre>';
-        // print_r($getCheckout);
+        // print_r($shipping);
         // echo '</pre>';
         $total = $cartProvider->sum($getCheckout);
         require_once "../views/client/checkout/checkout.php";
@@ -95,9 +98,20 @@ class OrderController
     {
         $orders = $this->orders->getOrderById();
         $orderList = $this->orders->getOrderProduct();
+        $coupon = $this->handleCoupon($orders,$orders['amount']);
         // echo '<pre>';
-        // print_r($orderList);
+        // print_r($orders);
         // echo '<pre>';
         require_once '../views/client/track_order/track_order.php';
+    }
+    public function handleCoupon($coupon, $total)
+    {
+
+        if ($coupon['type'] == 'Percentage') {
+            $totalCart = ($total * $coupon['coupon_value'] / 100);
+        } elseif ($coupon['type'] == 'Fixed Amount') {
+            $totalCart = $coupon['coupon_value'];
+        }
+        return $totalCart ?? 0 ;
     }
 }

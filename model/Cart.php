@@ -18,7 +18,7 @@ class Cart
 
     public function byNow($userId, $productId, $variantId, $quantity)
     {
-        $sql = "INSERT INTO cart(user_id,product_id,variant_id,quantity,status) VALUES(?,?,?,?,'pending_payment')";
+        $sql = "INSERT INTO cart(user_id,product_id,variant_id,quantity) VALUES(?,?,?,?,'pending_payment')";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$userId, $productId, $variantId, $quantity]);
         // Lấy ID của bản ghi vừa thêm
@@ -132,4 +132,6 @@ class Cart
         $stmt->execute([$coupon_code]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    
 }
