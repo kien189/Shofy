@@ -450,7 +450,7 @@
                                                                 <div class="tp-product-details-review-avater d-flex align-items-start">
                                                                     <div class="tp-product-details-review-avater-thumb">
                                                                         <a href="#">
-                                                                            <img src="<?= !empty($_SESSION['user']['image']) ? './images/user/' . $_SESSION['user']['image'] : 'https://i.pinimg.com/1200x/bc/43/98/bc439871417621836a0eeea768d60944.jpg' ?>" alt="User Avatar">
+                                                                            <img src="<?= !empty($come['avatar']) ? './images/user/' . $come['avatar'] : 'https://i.pinimg.com/1200x/bc/43/98/bc439871417621836a0eeea768d60944.jpg' ?>" alt="User Avatar">
                                                                         </a>
                                                                     </div>
                                                                     <div class="tp-product-details-review-avater-content">
@@ -459,7 +459,7 @@
                                                                                 <span><i class="fa-solid fa-star <?= ($i < $come['rating']) ? 'text-warning' : 'text-muted' ?>"></i></span>
                                                                             <?php endfor; ?>
                                                                         </div>
-                                                                        <h3 class="tp-product-details-review-avater-title"><?= $_SESSION['user']['name'] ?></h3>
+                                                                        <h3 class="tp-product-details-review-avater-title"><?= $come['user_name'] ?></h3>
                                                                         <span class="tp-product-details-review-avater-meta"><?= date('d, F, Y', strtotime($come['created_at'])) ?>
                                                                         </span>
 

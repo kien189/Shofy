@@ -28,11 +28,11 @@
                                         aria-controls="nav-information" aria-selected="false"><span><i
                                                 class="fa-regular fa-circle-info"></i></span> Information
                                     </button>
-                                    <button class="nav-link" id="nav-address-tab" data-bs-toggle="tab"
+                                    <!-- <button class="nav-link" id="nav-address-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-address" type="button" role="tab"
                                         aria-controls="nav-address" aria-selected="false"><span><i
                                                 class="fa-light fa-location-dot"></i></span> Address
-                                    </button>
+                                    </button> -->
                                     <button class="nav-link" id="nav-order-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-order" type="button" role="tab"
                                         aria-controls="nav-order" aria-selected="false"><span><i
@@ -63,17 +63,18 @@
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
                                                     <div class="profile__main-inner d-flex flex-wrap align-items-center">
-                                                        <div class="profile__main-thumb">
-                                                            <img src="assets/img/users/user-10.jpg" alt="">
-                                                            <div class="profile__main-thumb-edit">
-                                                                <input id="profile-thumb-input"
-                                                                    class="profile-img-popup" type="file">
-                                                                <label for="profile-thumb-input"><i
-                                                                        class="fa-light fa-camera"></i></label>
+                                                        <form id="avatarForm" action="index.php?act=updateAvatar" method="post" enctype="multipart/form-data">
+                                                            <div class="profile__main-thumb">
+                                                                <img src="<?= !empty($_SESSION['user']['avatar']) ? './images/user/' . $_SESSION['user']['avatar'] : 'https://i.pinimg.com/1200x/bc/43/98/bc439871417621836a0eeea768d60944.jpg' ?>" alt="User Avatar">
+                                                                <div class="profile__main-thumb-edit">
+                                                                    <input id="profile-thumb-input" class="profile-img-popup" type="file" name="avatar" accept="image/*" required style="display: none;" onchange="document.getElementById('avatarForm').submit();">
+                                                                    <label for="profile-thumb-input"><i class="fa-light fa-camera"></i></label>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        </form>
                                                         <div class="profile__main-content">
-                                                            <h4 class="profile__main-title">Welcome Mr. Admin!</h4>
+                                                            <h4 class="profile__main-title">Welcome <?= ($_SESSION['user']['gender'] === 'female') ? 'Mrs.' : 'Mr.' ?> <?= $_SESSION['user']['name'] ?>!</h4>
+
                                                             <p>You have <span>08</span> notifications</p>
                                                         </div>
                                                     </div>
@@ -98,7 +99,7 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <h4 class="profile__main-info-title">Downlaods</h4>
+                                                        <h4 class="profile__main-info-title">Downloads</h4>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-sm-6">
@@ -337,12 +338,12 @@
                                 <div class="tab-pane fade" id="nav-password" role="tabpanel"
                                     aria-labelledby="nav-password-tab">
                                     <div class="profile__password">
-                                        <form action="#">
+                                        <form action="index.php?act=changePassword" method="post">
                                             <div class="row">
                                                 <div class="col-xxl-12">
                                                     <div class="tp-profile-input-box">
                                                         <div class="tp-contact-input">
-                                                            <input name="old_pass" id="old_pass" type="password">
+                                                            <input name="currentPassword" id="old_pass" type="password">
                                                         </div>
                                                         <div class="tp-profile-input-title">
                                                             <label for="old_pass">Old Password</label>
@@ -352,17 +353,17 @@
                                                 <div class="col-xxl-6 col-md-6">
                                                     <div class="tp-profile-input-box">
                                                         <div class="tp-profile-input">
-                                                            <input name="new_pass" id="new_pass" type="password">
+                                                            <input name="newPassword" id="new_pass" type="password">
                                                         </div>
                                                         <div class="tp-profile-input-title">
-                                                            <label for="new_pass">New Password</label>
+                                                            <label for="newPassword">New Password</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-xxl-6 col-md-6">
                                                     <div class="tp-profile-input-box">
                                                         <div class="tp-profile-input">
-                                                            <input name="con_new_pass" id="con_new_pass"
+                                                            <input name="confirmPassword" id="con_new_pass"
                                                                 type="password">
                                                         </div>
                                                         <div class="tp-profile-input-title">
@@ -372,7 +373,7 @@
                                                 </div>
                                                 <div class="col-xxl-6 col-md-6">
                                                     <div class="profile__btn">
-                                                        <button type="submit" class="tp-btn">Update</button>
+                                                        <button type="submit" name="changePassword" class="tp-btn">Update</button>
                                                     </div>
                                                 </div>
                                             </div>

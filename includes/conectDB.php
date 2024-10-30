@@ -1,6 +1,6 @@
-<?php 
-
-function conectDB()  {
+<?php
+function conectDB()
+{
     $serverName = "localhost";
     $userName = "root";
     $password = "";
@@ -14,7 +14,4 @@ function conectDB()  {
         echo "Connection failed: " . $th->getMessage();
         return null;
     }
-
-    
 }
-

@@ -26,7 +26,7 @@
                 <div class="col-xl-3 col-lg-4">
                     <div class="tp-shop-sidebar mr-10">
                         <!-- filter -->
-                        <div class="tp-shop-widget mb-35">
+                        <!-- <div class="tp-shop-widget mb-35">
                             <h3 class="tp-shop-widget-title no-border">Price Filter</h3>
 
                             <div class="tp-shop-widget-content">
@@ -40,9 +40,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- status -->
-                        <div class="tp-shop-widget mb-50">
+                        <!-- <div class="tp-shop-widget mb-50">
                             <h3 class="tp-shop-widget-title">Product Status</h3>
 
                             <div class="tp-shop-widget-content">
@@ -56,10 +56,11 @@
                                             <input id="in_stock" type="checkbox">
                                             <label for="in_stock">In Stock</label>
                                         </li>
-                                    </ul><!-- .filter-items -->
-                                </div>
+                                    </ul> -->
+                                    <!-- .filter-items -->
+                                <!-- </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- categories -->
                         <div class="tp-shop-widget mb-50">
                             <h3 class="tp-shop-widget-title">Categories</h3>

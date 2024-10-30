@@ -109,6 +109,12 @@ switch ($action) {
     case 'track_order':
         $order->trackOrder();
         break;
+    case 'changePassword':
+        $profile->changePassword();
+        break;
+    case 'updateAvatar':
+        $profile->updateAvatarUser();
+        break;
         // case "applyCoupon":
         //     $cart->apCoupon();
         //     break;

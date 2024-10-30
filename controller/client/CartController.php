@@ -69,8 +69,8 @@ class CartController extends Cart
                 header("Location: index.php?act=buyNow&id=" . $byNows['id'] . "&product_id=" . $byNows['product_id']);
             }
         } catch (\Throwable $th) {
-            $_SESSION['error'] = $th->getMessage(); // Ghi lỗi vào session
-            header('Location: ' . $_SERVER['HTTP_REFERER']); // Quay lại trang trước đó
+            echo $th->getMessage(); // Ghi lỗi vào session
+            // header('Location: ' . $_SERVER['HTTP_REFERER']); // Quay lại trang trước đó
             exit();
         }
     }

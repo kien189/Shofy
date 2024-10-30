@@ -45,6 +45,9 @@ class HomeController
 
         // Lấy tất cả kích thước và loại bỏ trùng lặp
         $comment = $this->comment->getComentById($productDetail['product_id']);
+        // echo '<pre>';
+        // print_r($comment);
+        // echo '<pre>';
         $custormRatings = $this->custormRating($comment);
         $sizes = array_column($variants, 'size');
         $uniqueSizes = array_unique($sizes);
@@ -126,8 +129,8 @@ class HomeController
             for ($i = 0; $i < $ratingCount; $i++) {
                 $totalRating += $comment[$i]['rating'];
             }
-            $totalRating = $totalRating / $ratingCount;
-
+            $totalRating = round(($totalRating / $ratingCount) * 2) / 2;
+            //round($number * 2) / 2 giúp làm tròn $number về bội số gần nhất
             $ratingDistribution = array_fill(1, 5, 0); // Tạo mảng với 5 sao
             foreach ($comment as $come) {
                 $ratingDistribution[$come['rating']]++;

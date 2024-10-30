@@ -116,7 +116,7 @@
                         <p class="">Coupon : <?=$_SESSION['coupon']['name'] ?? ''?></p>
                         <p class="tp-cart-checkout-top-price">- $<?= $_SESSION['totalCart'] ?? '' ?>.00</p>
                     </div>
-                    <div class="tp-cart-checkout-shipping">
+                    <!-- <div class="tp-cart-checkout-shipping">
                         <h4 class="tp-cart-checkout-shipping-title">Shipping</h4>
 
                         <div class="tp-cart-checkout-shipping-option-wrapper">
@@ -133,7 +133,7 @@
                                 <label for="free_shipping">Free shipping</label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="tp-cart-checkout-total d-flex align-items-center justify-content-between">
                         <span>Total</span>
                         <span>$<?= $total - ($_SESSION['totalCart'] ?? 0)?>.00</span>
