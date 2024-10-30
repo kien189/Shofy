@@ -51,7 +51,7 @@ class ProductController
                     header("Location:" . $_SERVER['HTTP_REFERER']);
                     exit();
                 } else {
-                    $_SESSION['error'] = 'Đã có lỗi xảy ra vui lòng thử lại  .';
+                    $_SESSION['error'] = 'Bạn chưa mua hàng vui lòng mua hàng để review sản phẩm  .';
                     header("Location:" . $_SERVER['HTTP_REFERER']);
                     exit();
                 }

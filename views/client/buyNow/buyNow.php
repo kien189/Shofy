@@ -234,8 +234,8 @@
                                     <!-- total -->
                                     <li class="tp-order-info-list-total">
                                         <span>Total</span>
-                                        <span name="amout">$<?= $detailCheckout['variant_sale_price'] * $getCheckout[0]['quantity'] ?>.00</span>
-                                        <input type="hidden" name="amout" value="<?= $detailCheckout['variant_sale_price'] * $getCheckout[0]['quantity'] ?>">
+                                        <span name="amount">$<?= $detailCheckout['variant_sale_price'] * $getCheckout[0]['quantity'] ?>.00</span>
+                                        <input type="hidden" name="amount" value="<?= $detailCheckout['variant_sale_price'] * $getCheckout[0]['quantity'] ?>">
                                     </li>
                                 </ul>
                             </div>

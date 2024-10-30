@@ -41,7 +41,7 @@ include '../views/client/layout/header.php';
                   </div>
                   <form action="index.php?act=login" method="post">
                      <div class="tp-login-option">
-                        <div class="tp-login-social mb-10 d-flex flex-wrap align-items-center justify-content-center">
+                        <!-- <div class="tp-login-social mb-10 d-flex flex-wrap align-items-center justify-content-center">
                            <div class="tp-login-option-item has-google">
                               <a href="#">
                                  <img src="assets/img/icon/login/google.svg" alt="">
@@ -58,10 +58,10 @@ include '../views/client/layout/header.php';
                                  <img class="apple" src="assets/img/icon/login/apple.svg" alt="">
                               </a>
                            </div>
-                        </div>
-                        <div class="tp-login-mail text-center mb-40">
+                        </div> -->
+                        <!-- <div class="tp-login-mail text-center mb-40">
                            <p>or Sign in with <a href="#">Email</a></p>
-                        </div>
+                        </div> -->
                         <div class="tp-login-input-wrapper">
                            <div class="tp-login-input-box">
                               <div class="tp-login-input">

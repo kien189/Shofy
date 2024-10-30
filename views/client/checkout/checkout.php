@@ -163,7 +163,7 @@
                                     </li>
 
                                     <!-- shipping -->
-                                    <li class="tp-order-info-list-shipping">
+                                    <!-- <li class="tp-order-info-list-shipping">
                                         <span>Shipping</span>
                                         <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
                                             <span>
@@ -179,7 +179,7 @@
                                                 <label for="free_shipping">Free shipping</label>
                                             </span>
                                         </div>
-                                    </li>
+                                    </li> -->
 
                                     <!-- total -->
                                     <li class="tp-order-info-list-total">
@@ -211,17 +211,17 @@
                                         <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
                                     </div>
                                 </div>
-                                <div class="tp-checkout-payment-item paypal-payment">
+                                <!-- <div class="tp-checkout-payment-item paypal-payment">
                                     <input type="radio" id="paypal" name="payment">
                                     <label for="paypal">PayPal <img src="assets/img/icon/payment-option.png" alt=""> <a href="#">What is PayPal?</a></label>
-                                </div>
+                                </div> -->
                             </div>
-                            <div class="tp-checkout-agree">
+                            <!-- <div class="tp-checkout-agree">
                                 <div class="tp-checkout-option">
                                     <input id="read_all" type="checkbox">
                                     <label for="read_all">I have read and agree to the website.</label>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="tp-checkout-btn-wrapper">
                                 <button type="submit" id="checkout-button" class="tp-checkout-btn w-100" name="checkout">Place Order</button>
                             </div>
