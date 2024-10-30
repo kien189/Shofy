@@ -48,19 +48,19 @@
                                     <div class="col-sm-6">
                                         <div class="tp-order-details-item">
                                             <h4>Order Date:</h4>
-                                            <p>April 10, 2023</p>
+                                            <p><?=date('F d,Y',strtotime($orders['created_at']))?></p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="tp-order-details-item">
                                             <h4>Expected Delivery: </h4>
-                                            <p>April 16, 2023</p>
+                                            <p><?= date('F d, Y', strtotime($orders['created_at'] . ' +3 days')) ?></p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="tp-order-details-item">
                                             <h4>Order Number:</h4>
-                                            <p>#9641</p>
+                                            <p>#<?=$orders['order_detail_id']?></p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -101,20 +101,27 @@
 
                                     <!-- shipping -->
                                     <!-- shipping -->
-                                    <!-- <li class="tp-order-info-list-shipping">
+                                    <li class="shipping">
                                         <span>Shipping</span>
                                         <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
                                             <span>
-                                                <input id="shipping_info" type="checkbox">
-                                                <label for="shipping_info">Flat rate: <span>$20.00</span></label>
+                                                <label for="shipping_info"><?=$orders['shipping_name'] ?? null?> : <span>$<?=$orders['shipping_price'] ?? ''?>.00</span></label>
                                             </span>
                                         </div>
-                                    </li> -->
+                                    </li>
+                                    <li class="coupon">
+                                        <span>Coupon</span>
+                                        <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
+                                            <span>
+                                                <label for="shipping_info"> - <span>$<?=$coupon ?? 0?>.00</span></label>
+                                            </span>
+                                        </div>
+                                    </li>
 
                                     <!-- total -->
                                     <li class="tp-order-info-list-total">
                                         <span>Total</span>
-                                        <span>$<?= $orders['amount'] ?>.00</span>
+                                        <span>$<?=( $orders['amount']-$coupon)+$orders['shipping_price'] ?>.00</span>
                                     </li>
                                 </ul>
                             </div>

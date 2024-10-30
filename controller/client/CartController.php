@@ -143,4 +143,8 @@ class CartController extends Cart
         }
         return $totalCart;
     }
+
+    public function ship(){
+        
+    }
 }

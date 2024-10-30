@@ -145,6 +145,7 @@
                                         <input type="hidden" name="variant_id" value="<?= $detailCheckout['variant_id'] ?>" id="">
                                         <input type="hidden" name="cart_id" value="<?= $detailCheckout['cart_id'] ?>" id="">
                                         <input type="hidden" name="quantity" value="<?= $detailCheckout['cart_quantity'] ?>" id="">
+                                        <input type="hidden" name="coupon_id" value="<?=$_SESSION['coupon']['id'] ?? null ?>">
                                         <!-- item list -->
                                         <li class="tp-order-info-list-desc">
                                             <p><?= substr($detailCheckout['product_name'], 0, 35) ?>. <span> x 2</span></p>
@@ -163,23 +164,21 @@
                                     </li>
 
                                     <!-- shipping -->
-                                    <!-- <li class="tp-order-info-list-shipping">
+                                    <li class="tp-order-info-list-shipping">
                                         <span>Shipping</span>
                                         <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
-                                            <span>
-                                                <input id="flat_rate" type="radio" name="shipping">
-                                                <label for="flat_rate">Flat rate: <span>$20.00</span></label>
-                                            </span>
-                                            <span>
-                                                <input id="local_pickup" type="radio" name="shipping">
-                                                <label for="local_pickup">Local pickup: <span>$25.00</span></label>
-                                            </span>
+                                            <?php foreach ($shipping as $key =>  $ship) : ?>
+                                                <span>
+                                                    <input id="flat_rate<?=$key?>" type="radio" name="shipping" value="<?=$ship['id']?>" <?= $key === 0 ? 'checked' : '' ?>>
+                                                    <label for="flat_rate<?=$key?>"><?=$ship['shipping_name']?>: <span>$.<?=$ship['shipping_price']?>.00</span></label>
+                                                </span>
+                                            <?php endforeach; ?>
                                             <span>
                                                 <input id="free_shipping" type="radio" name="shipping">
                                                 <label for="free_shipping">Free shipping</label>
                                             </span>
                                         </div>
-                                    </li> -->
+                                    </li>
 
                                     <!-- total -->
                                     <li class="tp-order-info-list-total">

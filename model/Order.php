@@ -22,11 +22,11 @@ class Order
 
 
 
-    public function addOrderDetail($name, $email, $phone, $address, $user_id, $amount, $note)
+    public function addOrderDetail($name, $email, $phone, $address, $user_id, $amount, $note, $shipping_id, $coupon_id)
     {
-        $sql = "INSERT INTO order_detail (name,email,phone,address,user_id,amount,note,status,created_at,updated_at) VALUES (?, ?,?,?,?,?,?,'pending',now(),now())";
+        $sql = "INSERT INTO order_detail (name,email,phone,address,user_id,amount,note,shipping_id,coupon_id,status,created_at,updated_at) VALUES (?, ?,?,?,?,?,?,?,?,'pending',now(),now())";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$name, $email, $phone, $address, $user_id, $amount, $note]);
+        $stmt->execute([$name, $email, $phone, $address, $user_id, $amount, $note, $shipping_id, $coupon_id]);
         return $stmt;
     }
 
@@ -60,9 +60,14 @@ class Order
     od.status AS status,
     od.created_at AS created_at,
     od.updated_at AS updated_at,
+    s.shipping_price as shipping_price,
+    cp.coupon_value as coupon_value,
+    cp.type as coupon_type,
     SUM(o.quantity) AS quantity
     FROM order_detail od
     LEFT JOIN `oder` o ON od.id = o.order_id
+    LEFT JOIN ship s ON od.shipping_id = s.id
+    LEFT JOIN coupon cp ON od.coupon_id = cp.id
     GROUP BY od.id;
 ";
 
@@ -90,12 +95,18 @@ class Order
             p.image as order_product_image,
             pv.price as order_product_price,
             o.quantity as quantity,
-            c.name as category_name
+            c.name as category_name,
+            s.shipping_price as shipping_price,
+            s.shipping_name as shipping_name,
+            cp.coupon_value as coupon_value,
+            cp.type as type
             FROM order_detail od
             LEFT JOIN `oder` o ON od.id = o.order_id
             LEFT JOIN product p ON o.product_id = p.id
             LEFT JOIN category c ON p.category_id = c.id
             LEFT JOIN product_variant pv ON o.variant_id = pv.id
+            LEFT JOIN ship s ON od.shipping_id = s.id
+            LEFT JOIN coupon cp ON od.coupon_id = cp.id
             WHERE od.id = ?
             ";
         $stmt = $this->db->prepare($sql);
@@ -119,15 +130,15 @@ class Order
         LEFT JOIN variant_color vc ON pv.variant_color_id = vc.id
         LEFT JOIN variant_size vs ON pv.variant_size_id = vs.id
         WHERE o.order_id = ?";
-    
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$_GET['id']]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
 
 
-   
+
+
 
 
     // public function updateOrder($id, $status)
