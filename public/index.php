@@ -77,7 +77,6 @@ switch ($action) {
     case 'buyNow':
         $detailCheckout = $cart->getDetailProduct();
         $getCheckout = $cart->getCart();
-
         include "../views/client/buyNow/buyNow.php";
         break;
     case 'checkout':

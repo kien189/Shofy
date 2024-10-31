@@ -21,6 +21,9 @@ class OrderController
     {
         try {
             if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkout'])) {
+                // echo '<pre>';
+                // print_r($_POST);
+                // echo '<pre>';
                 $this->order();
                 unset($_SESSION['coupon']);
                 unset($_SESSION['totalCart']);
@@ -30,6 +33,8 @@ class OrderController
             } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['momo'])) {
                 $this->order();
                 $this->paymentMethod->momoPayment();
+                unset($_SESSION['coupon']);
+                unset($_SESSION['totalCart']);
                 exit();
             } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['vnpay'])) {
                 $this->order();
@@ -45,7 +50,7 @@ class OrderController
     {
         $cartProvider = CartProvider::getInstance();
         $getCheckout = $cartProvider->getCartItems();
-        $orderDetails = $this->orders->addOrderDetail($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address'], $_SESSION['user']['id'], $_POST['amount'], $_POST['note'],$_POST['coupon_id'], $_POST['shipping']);
+        $orderDetails = $this->orders->addOrderDetail($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address'], $_SESSION['user']['id'], $_POST['amount'], $_POST['note'], $_POST['shipping_id'],$_POST['coupon_id']);//,$_POST['coupon_id'], $_POST['shipping_id']
         if ($orderDetails) {
             $order_id = $this->orders->getLastInsertId();
             if (is_array($getCheckout)) {
@@ -59,6 +64,8 @@ class OrderController
 
     public function vnpayReturn()
     {
+        unset($_SESSION['coupon']);
+        unset($_SESSION['totalCart']);
         $_SESSION['success'] = "Đặt hàng thành công!";
         header('Location:index.php ');
         exit();
@@ -114,4 +121,6 @@ class OrderController
         }
         return $totalCart ?? 0 ;
     }
+
+    
 }

@@ -169,7 +169,7 @@
                                         <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
                                             <?php foreach ($shipping as $key =>  $ship) : ?>
                                                 <span>
-                                                    <input id="flat_rate<?=$key?>" type="radio" name="shipping" value="<?=$ship['id']?>" <?= $key === 0 ? 'checked' : '' ?>>
+                                                    <input id="flat_rate<?=$key?>" type="radio" name="shipping_id" value="<?=$ship['id']?>" <?= $key === 0 ? 'checked' : '' ?>>
                                                     <label for="flat_rate<?=$key?>"><?=$ship['shipping_name']?>: <span>$.<?=$ship['shipping_price']?>.00</span></label>
                                                 </span>
                                             <?php endforeach; ?>

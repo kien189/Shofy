@@ -26,7 +26,7 @@ class Order
     {
         $sql = "INSERT INTO order_detail (name,email,phone,address,user_id,amount,note,shipping_id,coupon_id,status,created_at,updated_at) VALUES (?, ?,?,?,?,?,?,?,?,'pending',now(),now())";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$name, $email, $phone, $address, $user_id, $amount, $note, $shipping_id, $coupon_id]);
+        $stmt->execute([$name, $email, $phone, $address, $user_id, $amount, $note, $shipping_id, !empty($coupon_id) ? $coupon_id : null]);
         return $stmt;
     }
 

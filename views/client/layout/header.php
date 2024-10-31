@@ -112,7 +112,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="offcanvas__category pb-40">
+                <!-- <div class="offcanvas__category pb-40">
                     <button class="tp-offcanvas-category-toggle">
                         <i class="fa-solid fa-bars"></i>
                         All Categories
@@ -120,7 +120,7 @@
                     <div class="tp-category-mobile-menu">
 
                     </div>
-                </div>
+                </div> -->
                 <div class="tp-main-menu-mobile fix d-lg-none mb-40"></div>
 
                 <div class="offcanvas__contact align-items-center d-none">
@@ -180,21 +180,19 @@
             <div class="row row-cols-5">
                 <div class="col">
                     <div class="tp-mobile-item text-center">
-                        <a href="shop.html" class="tp-mobile-item-btn">
+                        <a href="index.php?act=shop" class="tp-mobile-item-btn">
                             <i class="flaticon-store"></i>
                             <span>Store</span>
                         </a>
                     </div>
                 </div>
                 <div class="col">
-                    <form action="index.php?act=shop" method="post">
                         <div class="tp-mobile-item text-center">
                             <button type="submit" name="searchProduct" class="tp-mobile-item-btn tp-search-open-btn">
                                 <i class="flaticon-search-1"></i>
                                 <span>Search</span>
                             </button>
                         </div>
-                    </form>
                 </div>
                 <div class="col">
                     <div class="tp-mobile-item text-center">
@@ -206,7 +204,7 @@
                 </div>
                 <div class="col">
                     <div class="tp-mobile-item text-center">
-                        <a href="profile.html" class="tp-mobile-item-btn">
+                        <a href="index.php?act=profile" class="tp-mobile-item-btn">
                             <i class="flaticon-user"></i>
                             <span>Account</span>
                         </a>
@@ -234,19 +232,19 @@
                         <div class="tp-search-close text-center mb-20">
                             <button class="tp-search-close-btn tp-search-close-btn"></button>
                         </div>
-                        <form action="#">
+                        <form action="index.php?act=shop" method="post" >
                             <div class="tp-search-input mb-10">
-                                <input type="text" placeholder="Search for product...">
-                                <button type="submit"><i class="flaticon-search-1"></i></button>
+                                <input type="text" name="keyword" placeholder="Search for product..." required >
+                                <button type="submit" name="searchProduct"><i class="flaticon-search-1"></i></button>
                             </div>
-                            <div class="tp-search-category">
+                            <!-- <div class="tp-search-category">
                                 <span>Search by : </span>
                                 <a href="#">Men, </a>
                                 <a href="#">Women, </a>
                                 <a href="#">Children, </a>
                                 <a href="#">Shirt, </a>
                                 <a href="#">Demin</a>
-                            </div>
+                            </div> -->
                         </form>
                     </div>
                 </div>
