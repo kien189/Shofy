@@ -64,6 +64,6 @@ class OrderAdminController extends Order
         } elseif ($coupon['type'] == 'Fixed Amount') {
             $totalCart = $coupon['coupon_value'];
         }
-        return $totalCart;
+        return $totalCart ?? 0 ;
     }
 }
